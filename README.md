@@ -7,6 +7,8 @@
 
 如果使用 __框架__ 这边请: [ImProFX](https://github.com/rcszc/ImProFX)
 
+__文档:__
+
 [简单动画节点编辑器](https://github.com/rcszc/ImProFXcontrol/blob/main/im_docs/IMPROFX_ANED.md)
 
 <img src="im_docs/IMPROFX_ANED.png"/>
