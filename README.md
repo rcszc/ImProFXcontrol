@@ -9,7 +9,7 @@
 
 [简单动画节点编辑器](https://github.com/rcszc/ImProFXcontrol/blob/main/im_docs/IMPROFX_ANED.md)
 
-<img src="docs/im_docs/IMPROFX_ANED.png"/>
+<img src="im_docs/IMPROFX_ANED.png"/>
 
 ---
 感谢使用, 菜佬勿喷~
