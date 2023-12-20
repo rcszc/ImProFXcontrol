@@ -9,7 +9,7 @@
 - 标准库: ```string``` ```vector``` ```cstdio```
 - ImGui: ```imgui_glfw/imgui.h``` ```imgui_glfw/imgui_internal.h```
   
-> 使用时记得前往 improfx_control_base.hpp 把imgui替换为自己的路径 ~
+> 使用时记得前往 improfx_control_base.hpp 把imgui替换为自己的路径, 然后引入 improfx_control.h 即可 ~
 
 __说明:__ 这些控件全部是 ImProFX框架 同步开发的, 只不过它们可以不依赖框架只依赖ImGui, 轻松的集成到自己的项目中 ~
 
