@@ -9,9 +9,12 @@
 
 __文档:__
 
-[简单动画节点编辑器](https://github.com/rcszc/ImProFXcontrol/blob/main/im_docs/IMPROFX_ANED.md)
+[这边请~](https://github.com/rcszc/ImProFXcontrol/blob/main/im_docs/IMPROFX_DOC.md)
 
-<img src="im_docs/IMPROFX_ANED.png"/>
+<p align="center">
+  <img src="im_docs/IMPROFX_MEU.png" style="width:21%;"/>
+  <img src="im_docs/IMPROFX_ANE.png" style="width:78%;"/>
+</p>
 
 ---
 感谢使用, 菜佬勿喷~
