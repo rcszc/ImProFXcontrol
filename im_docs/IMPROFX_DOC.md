@@ -144,6 +144,7 @@ void DrawEditorWindow(
 	bool*                                p_open        = (bool*)0,                 // 与ImGui::Begin的"p_open"参数相同
 	ImGuiWindowFlags                     flags         = 0                         // 与ImGui::Begin的"flags"参数相同
 );
+// 注: 在编辑器内会统一使用中心坐标, 就是说 size = [1000,1000] 那么 limit = [-500 ~ +500, -500 ~ +500]
 
 // 工具栏子窗口绘制回调函数
 std::function<void()> EditorToolbar = []() {};
