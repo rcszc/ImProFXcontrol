@@ -5,7 +5,7 @@
 // control_base: imgui window_draw_list.
 namespace ImControlBase {
 
-#define ICB_ZEROLIMIT(high, value) high - value < 0.0f ? 0.0f : high - value
+#define ICB_ZEROLIMIT(high, value) high - value < 0.0f ? 0.0f : high - value && high - value > 1.0f ? 1.0f : high - value
 	ImVec4 ExtSubColorGrayscale(const ImVec4& color, float value) {
 		return ImVec4(ICB_ZEROLIMIT(color.x, value), ICB_ZEROLIMIT(color.y, value), ICB_ZEROLIMIT(color.z, value), ICB_ZEROLIMIT(color.w, value));
 	}

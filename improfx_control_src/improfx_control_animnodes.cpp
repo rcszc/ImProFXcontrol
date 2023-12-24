@@ -193,17 +193,17 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 	ImGui::PushID(unqiue_id);
 
 	// frame_background color.
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, EditorColorSystem);
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, EditorColorSystem);
-	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, EditorColorSystem);
+	ImGui::PushStyleColor(ImGuiCol_FrameBg, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.58f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.58f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.58f));
 	// slider_block color.
-	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, -0.32f));
-	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, -0.32f));
-	ImGui::PushStyleColor(ImGuiCol_Text, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, -0.42f));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.16f));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.16f));
+	ImGui::PushStyleColor(ImGuiCol_Text, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.2f));
 	// button color.
-	ImGui::PushStyleColor(ImGuiCol_Button, EditorColorSystem);
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, -0.24f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, -0.32f));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.58f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.2f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, EditorColorSystem);
 
 	ImGui::Begin(name, p_open, WindowFlags | flags);
 	{
@@ -221,6 +221,8 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 		// draw animation_track editor window.
 		ImGui::BeginChild("@ANIMTRACK", ImVec2(ChildWindowSize.x - IMGUI_ITEM_SPC, ChildWindowSize.y - IMGUI_ITEM_SPC * 5.5f), true);
 
+		ImVec4 LinesColor = ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.2f);
+		// value_zero base_line.
 		float HighCenterPosition = ImGui::GetWindowHeight() * 0.5f;
 		TrackXpos += (TrackWindowXpos.x - IMGUI_ITEM_SPC * 4.0f - TrackXpos) * 0.1f;
 
@@ -230,7 +232,7 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 			ImControlBase::ExtDrawLine(
 				ImVec2(LinesXposTemp, IMGUI_ITEM_SPC),
 				ImVec2(LinesXposTemp, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 4.0f),
-				EditorColorSystem,
+				LinesColor,
 				EditorScaleLinesWidth
 			);
 		}
@@ -243,13 +245,13 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 			// draw time_tick text.
 			ImControlBase::ExtDrawText(
 				ImVec2(LinesXposTemp - ImGui::CalcTextSize(TimeTickText).x * 0.5f, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 3.5f),
-				EditorColorSystem, "%.0f", i
+				LinesColor, "%.0f", i
 			);
 
 			ImControlBase::ExtDrawLine(
 				ImVec2(LinesXposTemp, IMGUI_ITEM_SPC),
 				ImVec2(LinesXposTemp, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 4.0f),
-				EditorColorSystem,
+				LinesColor,
 				EditorScaleLinesWidth * 2.0f
 			);
 		}
@@ -258,7 +260,7 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 		ImControlBase::ExtDrawLine(
 			ImVec2(0.0f, HighCenterPosition),
 			ImVec2(ImGui::GetWindowWidth(), HighCenterPosition),
-			EditorColorSystem,
+			LinesColor,
 			EditorScaleLinesWidth * 1.8f
 		);
 
@@ -370,12 +372,12 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 		ImGui::SetNextItemWidth(SpaceLeftItem);
 		ImGui::InputFloat("##SETPOS", &PlayerLineXpos.x, 0.0f, 0.0f, "%.1f");
 
-		SpacingLine(SpaceLeft, EditorColorSystem);
+		SpacingLine(SpaceLeft, LinesColor);
 		{
 			for (size_t i = 0; i < 3; ++i)
 				ImGui::TextColored(AsixColors[i], AsixTexts[i], PlayerRunCoord.AnimGenVector[i + (size_t)EditorModeType * 3]);
 		}
-		SpacingLine(SpaceLeft, EditorColorSystem);
+		SpacingLine(SpaceLeft, LinesColor);
 
 		ImGui::Text("Animations:%u", sample.size());
 	}

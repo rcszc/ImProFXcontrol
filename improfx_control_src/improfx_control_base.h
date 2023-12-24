@@ -2,7 +2,7 @@
 
 #ifndef _IMPROFX_CONTROL_BASE_HPP
 #define _IMPROFX_CONTROL_BASE_HPP
-#include <iostream>
+#include <functional>
 #include <string>
 #include <vector>
 #include <deque>

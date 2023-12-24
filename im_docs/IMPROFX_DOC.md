@@ -3,7 +3,7 @@
 > improfx_control_src/improfx_control.h
 
 ```RCSZ```
-- [x] __Update:__ 2023.12.24
+- [x] __Update:__ 2023.12.25
 ---
 
 - 标准库: ```string``` ```vector``` ```cstdio```
@@ -17,8 +17,9 @@ __说明:__ 这些控件全部是 ImProFX框架 同步开发的, 只不过它们
 | :---: | :---: | :---:
 | SmoothMenuChildWindow | 2023.12.21 | RCSZ |
 | AnimNodesEditorWindow | 2023.12.21 | RCSZ |
+| CoordSystemEditorWindow | 2023.12.25 | RCSZ |
 
-### 平滑(纵向)菜单
+## 平滑(纵向)菜单
 > - 子窗口: 函数内会调用 ImGui::BeginChild - ImGui::EndChild
 > - Update: 2023.12.24 修改类名,优化样式
 
@@ -43,9 +44,9 @@ void DrawMenuWindow(
 
 ---
 
-### 动画(节点)编辑器
+## 动画节点编辑器
 > - 窗口: 函数内会调用 ImGui::Begin - ImGui::End
-> - Update: 2023.12.24 新增俯仰轴,偏航轴,横滚轴
+> - Update: 2023.12.25 新增成员:编辑器色系
 
 __类定义:__
 ```cpp
@@ -98,6 +99,72 @@ std::vector<AnimGenCoord> GenerateBakedBezierCurve();
 
 float TrackWidthValueScale = 1.0f;  // 动画轨道宽度缩放
 float TrackHeightValueScale = 1.0f; // 动画轨道高度缩放
+
+// 编辑器色系, 所有控件的颜色会围绕这个颜色进行变换
+ImVec4 EditorColorSystem = ImVec4(0.85f, 0.85f, 0.85f, 1.0f);
+```
+
+---
+
+## 坐标系编辑器
+> - 窗口: 函数内会调用 ImGui::Begin - ImGui::End
+> - Update: 2023.12.25 可能会有潜在bug欢迎反馈
+
+__类定义:__
+```cpp
+class CoordSystemEditorWindow;
+```
+
+__数据结构:__
+```cpp
+// 函数对象传入坐标系信息.
+struct CoordSystemInfo {
+	ImVec2 CenterPosition; // 虚拟坐标系网格中心位置坐标
+	ImVec2 MouseCoordPos;  // 虚拟坐标系虚拟鼠标坐标(当前鼠标在网格上的位置)
+
+	ImVec2 SelectionBoxPoint0; // 选择框矩形对角点A(网格虚拟坐标系)
+	ImVec2 SelectionBoxPoint1; // 选择框矩形对角点B(网格虚拟坐标系)
+
+	float ScaleCoord; // 虚拟坐标系缩放
+}
+```
+
+__调用成员:__
+```cpp
+// 绘制编辑器.
+void DrawEditorWindow(
+	uint32_t                             unqiue_id,  // ImGui帧内唯一ID
+	const char*                          name,       // 窗口名称
+	std::function<void(CoordSystemInfo)> draw,       // 坐标系子窗口绘制回调函数
+	ImTextureID                          poswin_image  = nullptr,                  // 工具定位窗口背景图片
+	bool                                 fixed_window  = true,                     // 固定窗口(大小&位置)
+	float                                speed         = 1.0f,                     // 动画速度缩放
+	const ImVec2&                        coord_size    = ImVec2(1200.0f, 1200.0f), // 虚拟坐标系大小
+	const ImVec2&                        coord_winsize = ImVec2(640.0f, 640.0f)    // 坐标系子窗口大小
+	bool*                                p_open        = (bool*)0,                 // 与ImGui::Begin的"p_open"参数相同
+	ImGuiWindowFlags                     flags         = 0                         // 与ImGui::Begin的"flags"参数相同
+);
+
+// 工具栏子窗口绘制回调函数
+std::function<void()> EditorToolbar = []() {};
+
+// 编辑器色系, 所有控件的颜色会围绕这个颜色进行变换
+ImVec4 EditorColorSystem = ImVec4(0.85f, 0.85f, 0.85f, 1.0f);
+```
+
+__简单例子(坐标计算):__
+```cpp
+// 在编辑器坐标系中绘制中心点居中图片:
+auto DemoFunc = [&](CoordSystemInfo INFO) {
+
+	// 绘制图片大小
+	ImVec2 RenderSize(1000.0f, 1000.0f);
+	// 绘制图片位置
+	ImVec2 ImgPos(INFO.CenterPosition.x - RenderSize.x * 0.5f * INFO.ScaleCoord, INFO.CenterPosition.y - RenderSize.y * 0.5f * INFO.ScaleCoord);
+		
+	// 绘制图片(或者其他控件也用同样方法计算)...
+	// PS: 测试的时候发现使用ImGui::Image会有一个莫名其妙的bug,然后换成绘制列表(ImGui::GetWindowDrawList()->AddImageRounded)就没问题了 /滑稽
+};
 ```
 
 ---
