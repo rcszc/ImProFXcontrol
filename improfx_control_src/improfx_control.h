@@ -1,9 +1,15 @@
 // improfx_control. RCSZ.
 // ImProFX Framework => ImGui ExtControl
-// Update: 2023.12.23
+// Update: 2023.12.26
 
 #ifndef _IMPROFX_CONTROL_H
 #define _IMPROFX_CONTROL_H
+#include <functional>
+#include <string>
+#include <vector>
+#include <deque>
+#include <cstdio>
+
 #include "improfx_control_base.h"
 
 // ######################################## SmoothMenuChildWindow ########################################
@@ -54,7 +60,7 @@ struct AnimGenCoord {
 	float AnimGenVector[ANE_COORD_PARAM];
 };
 
-// [Window]: 动画节点编辑器. 2023_12_19 RCSZ.
+// [Window]: 动画(节点)编辑器. 2023_12_19 RCSZ.
 class AnimNodesEditorWindow {
 protected:
 	ImVec4 EditorColorPlayer = ImVec4(0.0f, 0.72f, 0.72f, 1.0f);
@@ -135,16 +141,16 @@ protected:
 	ImVec2 GridSizeScale = ImVec2(1.0f, 1.0f); // x:scale, y:smooth
 	ImVec2 GridMousePosition = {};
 
-	ImVec2 EditorSeBoxPoints[2]   = {};
-	ImVec2 EditorSeBoxVirCoord[2] = {};
+	ImVec2 EditorSeleBoxWinPoints[2] = {};
+	ImVec2 EditorSeleBoxVirPoints[2] = {};
 
 	ImVec2 PosWinCurrPosition = {};
 
 	bool GridWinFocus    = false;
 	bool PosWinCurrFocus = false;
 
-	void DrawCoordinateRulerX(const ImVec2& limit, const ImVec4& color, float length, float center, float scale, float ruler = 20.0f);
-	void DrawCoordinateRulerY(const ImVec2& limit, const ImVec4& color, float length, float center, float scale, float ruler = 20.0f);
+	void DrawCoordinateXRuler(const ImVec2& limit, const ImVec4& color, float length, float center, float scale, float ruler = 20.0f);
+	void DrawCoordinateYRuler(const ImVec2& limit, const ImVec4& color, float length, float center, float scale, float ruler = 20.0f);
 	void DrawCoordinateLines(const ImVec4& color, const ImVec2& mouse, const ImVec2& win_size);
 
 	void DrawGrid(

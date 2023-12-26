@@ -1,29 +1,26 @@
 // improfx_control_animgroups. RCSZ. [20231220]
-// ImGui: [Window(Begin_End)], Animation Nodes Editor, Update: 20231223.
+// ImGui: [Window(Begin_End)], Animation Nodes Editor, Update: 20231226.
 
 #include "improfx_control.h"
 
-#define IMVEC2_ADD2(p1, p2) ImVec2((p1).x + (p2).x, (p1).y + (p2).y)
-#define IMVEC2_SUB2(p1, p2) ImVec2((p1).x - (p2).x, (p1).y - (p2).y)
-#define IMVEC2_MUL1(p, v)   ImVec2((p).x * (v), (p).y * (v))
-#define IMVEC2_MUL2(p1, p2) ImVec2((p1).x * (p2).x, (p1).y * (p2).y)
-
-constexpr ImVec4 XYZCOL[3] = {
-	ImVec4(1.0f, 0.2f, 0.2f, 1.0f), ImVec4(0.2f, 1.0f, 0.2f, 1.0f), ImVec4(0.5f, 0.5f, 1.0f, 1.0f)
-};
-constexpr ImVec4 PYRCOL[3] = {
-	ImVec4(1.0f, 0.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 0.0f, 1.0f), ImVec4(0.0f, 1.0f, 1.0f, 1.0f)
-};
+constexpr ImVec4 XYZCOL[3] = { ImVec4(1.0f, 0.2f, 0.2f, 1.0f), ImVec4(0.2f, 1.0f, 0.2f, 1.0f), ImVec4(0.5f, 0.5f, 1.0f, 1.0f) };
+constexpr ImVec4 PYRCOL[3] = { ImVec4(1.0f, 0.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 0.0f, 1.0f), ImVec4(0.0f, 1.0f, 1.0f, 1.0f) };
 
 constexpr const char* XYZTEXT[3] = { "Xaxis:%.2f","Yaxis:%.2f","Zaxis:%.2f" };
 constexpr const char* PYRTEXT[3] = { "Pitch:%.2f","Yaw:%.2f","Roll:%.2f" };
 
-inline void ButtonModeType(bool& type, const char* fname, const char* tname, const ImVec2& size) {
-	const char* PlayerButtonName = {};
-	if (type) PlayerButtonName = fname;
-	else      PlayerButtonName = tname;
-	if (ImGui::Button(PlayerButtonName, size))
-		type = !type;
+constexpr float EditorSpaceLeft  = 160.0f;
+constexpr float EditorSpaceBelow = 32.0f;
+
+inline void ButtonModeType(bool& modeflag, const char* fname, const char* tname, const ImVec2& size) {
+	if (modeflag) {
+		if (ImGui::Button(fname, size))
+			modeflag = !modeflag;
+	}
+	else {
+		if (ImGui::Button(tname, size))
+			modeflag = !modeflag;
+	}
 }
 
 void AnimNodesEditorWindow::MouseSetPointValue() {
@@ -63,12 +60,12 @@ void AnimNodesEditorWindow::DrawCubicBezierCurve(
 	ImVec2 ControlPointA = IMVEC2_SUB2(MidPoint, ImVec2(0.0f, IMVEC2_SUB2(DrawPoint1, MidPoint).y));
 	ImVec2 ControlPointB = IMVEC2_ADD2(MidPoint, ImVec2(0.0f, IMVEC2_SUB2(DrawPoint1, MidPoint).y));
 
-	ImVec2 LinePointTemp = ImBezierCubicCalc(DrawPoint0, ControlPointA, ControlPointB, DrawPoint1, 0.0f);
+	ImVec2 BeginPointTemp = ImBezierCubicCalc(DrawPoint0, ControlPointA, ControlPointB, DrawPoint1, 0.0f);
 	for (int i = 0; i < sample; ++i) {
 
 		ImVec2 DrawPoint = ImBezierCubicCalc(DrawPoint0, ControlPointA, ControlPointB, DrawPoint1, (float)i / (float)sample);
-		ImControlBase::ExtDrawLine(LinePointTemp, DrawPoint, color, EditorScaleLinesWidth * 2.0f);
-		LinePointTemp = DrawPoint;
+		ImControlBase::ExtDrawLine(BeginPointTemp, DrawPoint, color, EditorScaleLinesWidth * 2.0f);
+		BeginPointTemp = DrawPoint;
 	}
 }
 
@@ -183,33 +180,31 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 	bool*                         p_open,
 	ImGuiWindowFlags              flags
 ) {
-	const float SpaceLeft  = 160.0f;
-	const float SpaceBelow = 32.0f;
 	AnimDataIndex = &sample;
 
-	ImGuiWindowFlags WindowFlags = 0;
+	ImGuiWindowFlags WindowFlags = ImGuiWindowFlags_None;
 	if (fixed_window)
 		WindowFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize;
 	ImGui::PushID(unqiue_id);
 
 	// frame_background color.
-	ImGui::PushStyleColor(ImGuiCol_FrameBg, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.58f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.58f));
-	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.58f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBg, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f));
+	ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f));
 	// slider_block color.
-	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.16f));
-	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.16f));
-	ImGui::PushStyleColor(ImGuiCol_Text, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.2f));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.16f));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.16f));
+	ImGui::PushStyleColor(ImGuiCol_Text, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.2f));
 	// button color.
-	ImGui::PushStyleColor(ImGuiCol_Button, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.58f));
-	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.2f));
+	ImGui::PushStyleColor(ImGuiCol_Button, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.2f));
 	ImGui::PushStyleColor(ImGuiCol_ButtonActive, EditorColorSystem);
 
 	ImGui::Begin(name, p_open, WindowFlags | flags);
 	{
-		ImVec2 ChildWindowSize = ImVec2(ImGui::GetWindowSize().x - SpaceLeft, ImGui::GetWindowSize().y - SpaceBelow);
+		ImVec2 ChildWindowSize = ImVec2(ImGui::GetWindowSize().x - EditorSpaceLeft, ImGui::GetWindowSize().y - EditorSpaceBelow);
 
-		ImGui::SetCursorPos(ImVec2(SpaceLeft, ImGui::GetWindowSize().y - SpaceBelow - IMGUI_ITEM_SPC * 0.5f));
+		ImGui::SetCursorPos(ImVec2(EditorSpaceLeft, ImGui::GetWindowSize().y - EditorSpaceBelow - IMGUI_ITEM_SPC * 0.5f));
 		ImGui::SetNextItemWidth(ChildWindowSize.x - ImGui::CalcTextSize("TRACK").x - IMGUI_ITEM_SPC * 2.0f);
 
 		TrackWindowXpos.y = track_length * TrackWidthValueScale - ChildWindowSize.x * 0.85f;
@@ -217,11 +212,11 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 
 		ImGui::SliderFloat("TRACK", &TrackWindowXpos.x, 0.0f, TrackWindowXpos.y, "%0.1f");
 
-		ImGui::SetCursorPos(ImVec2(SpaceLeft, IMGUI_ITEM_SPC * 4.32f));
+		ImGui::SetCursorPos(ImVec2(EditorSpaceLeft, IMGUI_ITEM_SPC * 4.32f));
 		// draw animation_track editor window.
 		ImGui::BeginChild("@ANIMTRACK", ImVec2(ChildWindowSize.x - IMGUI_ITEM_SPC, ChildWindowSize.y - IMGUI_ITEM_SPC * 5.5f), true);
 
-		ImVec4 LinesColor = ImControlBase::ExtSubColorGrayscale(EditorColorSystem, 0.2f);
+		ImVec4 LinesColor = ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.42f);
 		// value_zero base_line.
 		float HighCenterPosition = ImGui::GetWindowHeight() * 0.5f;
 		TrackXpos += (TrackWindowXpos.x - IMGUI_ITEM_SPC * 4.0f - TrackXpos) * 0.1f;
@@ -334,7 +329,7 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 		ImGui::Text("TICK: %.1f", PlayerLineXpos.y);
 		ImGui::Spacing();
 
-		float ButtonWidth = (SpaceLeft - IMGUI_ITEM_SPC * 3.0f) * 0.5f;
+		float ButtonWidth = (EditorSpaceLeft - IMGUI_ITEM_SPC * 3.0f) * 0.5f;
 		if (ImGui::Button("Begin", ImVec2(ButtonWidth, 0.0f))) {
 			PlayerLineXpos.x = 0.0f;
 			PlayerLineXpos.y = 0.0f;
@@ -346,7 +341,7 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 		}
 		ImGui::Spacing();
 
-		float SpaceLeftItem = SpaceLeft - IMGUI_ITEM_SPC * 2.0f;
+		float SpaceLeftItem = EditorSpaceLeft - IMGUI_ITEM_SPC * 2.0f;
 		ButtonModeType(PlayerPlayFlag, "STOP", "PLAY", ImVec2(SpaceLeftItem, 0.0f));
 		if (PlayerPlayFlag)
 			PlayerLineXpos.x += player_step * TrackWidthValueScale;
@@ -372,12 +367,12 @@ void AnimNodesEditorWindow::DrawEditorWindow(
 		ImGui::SetNextItemWidth(SpaceLeftItem);
 		ImGui::InputFloat("##SETPOS", &PlayerLineXpos.x, 0.0f, 0.0f, "%.1f");
 
-		SpacingLine(SpaceLeft, LinesColor);
+		SpacingLine(EditorSpaceLeft, LinesColor);
 		{
 			for (size_t i = 0; i < 3; ++i)
 				ImGui::TextColored(AsixColors[i], AsixTexts[i], PlayerRunCoord.AnimGenVector[i + (size_t)EditorModeType * 3]);
 		}
-		SpacingLine(SpaceLeft, LinesColor);
+		SpacingLine(EditorSpaceLeft, LinesColor);
 
 		ImGui::Text("Animations:%u", sample.size());
 	}

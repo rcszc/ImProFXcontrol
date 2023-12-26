@@ -6,7 +6,7 @@
 namespace ImControlBase {
 
 #define ICB_ZEROLIMIT(high, value) high - value < 0.0f ? 0.0f : high - value && high - value > 1.0f ? 1.0f : high - value
-	ImVec4 ExtSubColorGrayscale(const ImVec4& color, float value) {
+	ImVec4 ExtColorBrightnesScale(const ImVec4& color, float value) {
 		return ImVec4(ICB_ZEROLIMIT(color.x, value), ICB_ZEROLIMIT(color.y, value), ICB_ZEROLIMIT(color.z, value), ICB_ZEROLIMIT(color.w, value));
 	}
 
@@ -19,7 +19,7 @@ namespace ImControlBase {
 		ImGui::GetWindowDrawList()->AddLine(
 			ImVec2(ImGui::GetWindowPos().x + point0.x, ImGui::GetWindowPos().y + point0.y),
 			ImVec2(ImGui::GetWindowPos().x + point1.x, ImGui::GetWindowPos().y + point1.y),
-			IM_COL32(ImU32(color.x * 255.0f), ImU32(color.y * 255.0f), ImU32(color.z * 255.0f), ImU32(color.w * 255.0f)),
+			IMVEC4_CVT_COLU32(color),
 			linewidth
 		);
 	}
@@ -35,7 +35,7 @@ namespace ImControlBase {
 
 		ImGui::GetWindowDrawList()->AddText(
 			ImVec2(ImGui::GetWindowPos().x + position.x, ImGui::GetWindowPos().y + position.y),
-			IM_COL32(ImU32(color.x * 255.0f), ImU32(color.y * 255.0f), ImU32(color.z * 255.0f), ImU32(color.w * 255.0f)),
+			IMVEC4_CVT_COLU32(color),
 			LoggerStrTemp
 		);
 	}
@@ -45,7 +45,7 @@ namespace ImControlBase {
 		ImGui::GetWindowDrawList()->AddRect(
 			ImVec2(ImGui::GetWindowPos().x + position.x, ImGui::GetWindowPos().y + position.y),
 			ImVec2(ImGui::GetWindowPos().x + position.x + size.x, ImGui::GetWindowPos().y + position.y + size.y),
-			IM_COL32(ImU32(color.x * 255.0f), ImU32(color.y * 255.0f), ImU32(color.z * 255.0f), ImU32(color.w * 255.0f)),
+			IMVEC4_CVT_COLU32(color),
 			ImGui::GetStyle().FrameRounding,
 			NULL,
 			linewidth
@@ -57,7 +57,7 @@ namespace ImControlBase {
 		ImGui::GetWindowDrawList()->AddRectFilled(
 			ImVec2(ImGui::GetWindowPos().x + position.x, ImGui::GetWindowPos().y + position.y),
 			ImVec2(ImGui::GetWindowPos().x + position.x + size.x, ImGui::GetWindowPos().y + position.y + size.y),
-			IM_COL32(ImU32(color.x * 255.0f), ImU32(color.y * 255.0f), ImU32(color.z * 255.0f), ImU32(color.w * 255.0f)),
+			IMVEC4_CVT_COLU32(color),
 			ImGui::GetStyle().FrameRounding,
 			NULL
 		);
@@ -68,7 +68,7 @@ namespace ImControlBase {
 		ImGui::GetWindowDrawList()->AddCircleFilled(
 			ImVec2(ImGui::GetWindowPos().x + position.x, ImGui::GetWindowPos().y + position.y),
 			size,
-			IM_COL32(ImU32(color.x * 255.0f), ImU32(color.y * 255.0f), ImU32(color.z * 255.0f), ImU32(color.w * 255.0f))
+			IMVEC4_CVT_COLU32(color)
 		);
 	}
 
@@ -78,7 +78,7 @@ namespace ImControlBase {
 			ImVec2(ImGui::GetWindowPos().x + position.x, ImGui::GetWindowPos().y + position.y),
 			ImVec2(ImGui::GetWindowPos().x + position.x + offset1.x, ImGui::GetWindowPos().y + position.y + offset1.y),
 			ImVec2(ImGui::GetWindowPos().x + position.x + offset2.x, ImGui::GetWindowPos().y + position.y + offset2.y),
-			IM_COL32(ImU32(color.x * 255.0f), ImU32(color.y * 255.0f), ImU32(color.z * 255.0f), ImU32(color.w * 255.0f))
+			IMVEC4_CVT_COLU32(color)
 		);
 	}
 }

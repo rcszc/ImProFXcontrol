@@ -1,5 +1,5 @@
 ﻿// improfx_control_menu. RCSZ. [20231220]
-// ImGui: [ChildWindow(BeginChild_EndChild)], Animation Menu, Update: 20231220.
+// ImGui: [ChildWindow(BeginChild_EndChild)], Animation Menu, Update: 20231226.
 
 #include "improfx_control.h"
 
@@ -54,12 +54,12 @@ void SmoothMenuChildWindow::DrawMenuWindow(
 	float                           textscale
 ) {
 	ImGui::BeginChild(name, size);
-	ImControlBase::ExtDrawRectangleFill(ImVec2(), size, ImControlBase::ExtSubColorGrayscale(color, 0.5f));
+	ImControlBase::ExtDrawRectangleFill(ImVec2(), size, ImControlBase::ExtColorBrightnesScale(color, 0.5f));
 	ImGui::SetWindowFontScale(textscale);
 
 	ImGui::PushStyleColor(ImGuiCol_Text, color);
-	DrawMenuTypeRect(TextDrawHeight, ImControlBase::ExtSubColorGrayscale(color, 0.15f));
-	DrawMenuItemRect(TextDrawHeight, ImControlBase::ExtSubColorGrayscale(color, 0.25f));
+	DrawMenuTypeRect(TextDrawHeight, ImControlBase::ExtColorBrightnesScale(color, 0.15f));
+	DrawMenuItemRect(TextDrawHeight, ImControlBase::ExtColorBrightnesScale(color, 0.25f));
 
 	// draw menu_items.
 	for (size_t i = 0; i < items.size(); ++i) {
