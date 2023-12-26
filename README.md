@@ -3,7 +3,8 @@
 
 - __新增:__ 新增通用坐标系编辑器.
 - __公告:__ 此库ImGui扩展控件都 __非第三方__ 全部是 ImProFX 框架一起开发的控件独立出来.
-> __Update:__ 2023.12.25 RCSZ
+- __更新:__ 修复了一些BUG.
+> Code: 2023.12.26 Docs: 2023.12.25 RCSZ
 
 如果使用 __框架__ 这边请: [ImProFX](https://github.com/rcszc/ImProFX)
 
