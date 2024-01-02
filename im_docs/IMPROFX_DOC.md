@@ -3,10 +3,10 @@
 > improfx_control_src/improfx_control.h
 
 ```RCSZ```
-- [x] __Update:__ 2023.12.25
+- [x] __Update:__ 2024.01.02
 ---
 
-- 标准库: ```string``` ```vector``` ```cstdio```
+- 标准库: ```string``` ```vector``` ```functional``` ```cstdio```
 - ImGui: ```imgui_glfw/imgui.h``` ```imgui_glfw/imgui_internal.h```
   
 > 使用时记得前往 improfx_control_base.hpp 把imgui替换为自己的路径, 然后引入 improfx_control.h 即可 ~
