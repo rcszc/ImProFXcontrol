@@ -19,4 +19,4 @@ __文档:__ [这边请~](https://github.com/rcszc/ImProFXcontrol/blob/main/im_do
 </p>
 
 ---
-感谢使用, 菜佬勿喷~
+感谢使用, 菜, 佬勿喷~
