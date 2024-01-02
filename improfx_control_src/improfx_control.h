@@ -1,19 +1,18 @@
 // improfx_control. RCSZ.
 // ImProFX Framework => ImGui ExtControl
-// Update: 2023.12.26
+// Update: 2024.01.02
 
 #ifndef _IMPROFX_CONTROL_H
 #define _IMPROFX_CONTROL_H
 #include <functional>
 #include <string>
 #include <vector>
-#include <deque>
 #include <cstdio>
 
 #include "improfx_control_base.h"
 
 // ######################################## SmoothMenuChildWindow ########################################
-// [ChildWindow]: ¶¯»­×İÏò²Ëµ¥. 2023_12_16 RCSZ.
+// [ChildWindow]: åŠ¨ç”»çºµå‘èœå•. 2023_12_16 RCSZ.
 class SmoothMenuChildWindow {
 protected:
 	float TextDrawHeight = 0.0f;
@@ -60,7 +59,7 @@ struct AnimGenCoord {
 	float AnimGenVector[ANE_COORD_PARAM];
 };
 
-// [Window]: ¶¯»­(½Úµã)±à¼­Æ÷. 2023_12_19 RCSZ.
+// [Window]: åŠ¨ç”»(èŠ‚ç‚¹)ç¼–è¾‘å™¨. 2023_12_19 RCSZ.
 class AnimNodesEditorWindow {
 protected:
 	ImVec4 EditorColorPlayer = ImVec4(0.0f, 0.72f, 0.72f, 1.0f);
@@ -130,7 +129,7 @@ struct CoordSystemInfo {
 	{}
 };
 
-// [Window]: ×ø±êÏµ±à¼­Æ÷. 2023_12_25 RCSZ.
+// [Window]: åæ ‡ç³»ç¼–è¾‘å™¨. 2023_12_25 RCSZ.
 class CoordSystemEditorWindow {
 protected:
 	CoordSystemInfo EditorCoordInfo = {};
