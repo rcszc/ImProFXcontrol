@@ -1,14 +1,12 @@
 # ImProFXcontrol
-> ImProFX 框架好用的扩展控件单独开的储存库, 您可以在不依赖 ImProFX 框架的情况下集成到自己的项目.
+> 与 ImProFX 框架无关只依赖 ImGui核心 与 标准库 的ImGui自制控件.
 
-- __新增:__ 新增通用坐标系编辑器.
-- __公告:__ 此库ImGui扩展控件都 __非第三方__ 全部是 ImProFX 框架一起开发的控件独立出来.
-- __更新:__ 修复了一些BUG.
-> Code: 2023.12.26 Docs: 2023.12.25 RCSZ
+- __新增:__ 新增模拟仪表盘.
+- __公告:__ 持续不定时更新中...如果有新增控件b站会同步发视频.
+- __更新:__ 新增子窗口控件, 修复了一些BUG.
+> Code: 2024.02.18 Docs: 2024.02.18 RCSZ
 
-如果使用 __框架__ 这边请: [ImProFX](https://github.com/rcszc/ImProFX)
-
-__文档:__ [这边请~](https://github.com/rcszc/ImProFXcontrol/blob/main/im_docs/IMPROFX_DOC.md)
+__文档:__ [里边请~](https://github.com/rcszc/ImProFXcontrol/blob/main/im_docs/IMPROFX_DOC.md)
 
 <p align="center">
   <img src="im_docs/IMPROFX_IPFC1.png" style="width:20%;"/>
@@ -16,7 +14,11 @@ __文档:__ [这边请~](https://github.com/rcszc/ImProFXcontrol/blob/main/im_do
 </p>
 <p align="center">
   <img src="im_docs/IMPROFX_IPFC3.png" style="width:40%;"/>
+  <img src="im_docs/IMPROFX_IPFC4.png" style="width:31%;"/>
 </p>
 
+至于 __ImProFX框架__ 目前属于搁置期(纯屎山): [ImProFX](https://github.com/rcszc/ImProFX)
+
 ---
+
 感谢使用, 菜, 佬勿喷~
