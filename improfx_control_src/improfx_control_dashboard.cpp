@@ -134,7 +134,7 @@ namespace IMFXC_CWIN {
 
 	void DashboardChildWindow::DrawIndicator(float window_width, float y_offset, float value, const ImVec2& limit, const ImVec4& color) {
 		float DrawOffsetHigh = window_width * 0.5f;
-		// Ö¸Õë¿í¶È½Ç¶ÈÐÞÕý.
+		// æŒ‡é’ˆå®½åº¦è§’åº¦ä¿®æ­£.
 		float IWL = IndicatorWidth / (DrawOffsetHigh * 0.85f);
 
 		float SemicircleDegLen = SemicircleDeg.y - SemicircleDeg.x + IWL * 180.0f;
@@ -149,7 +149,7 @@ namespace IMFXC_CWIN {
 			cos(IMFXC_DEGTORAD(SemicircleDeg.y - SemicircleDegLen * ValueProportion) + IWL) * DrawOffsetHigh * 0.85f - IMGUI_ITEM_SPC + y_offset
 		);
 
-		// ÒÇ±íÖ¸Õë»ù×ù => ÒÇ±íÖ¸Õë => Ö¸Õë¸Ç.
+		// ä»ªè¡¨æŒ‡é’ˆåŸºåº§ => ä»ªè¡¨æŒ‡é’ˆ => æŒ‡é’ˆç›–.
 		ImControlBase::ExtDrawCircleFill(CenterPoint, 32.0f, ImVec4(0.12f, 0.12f, 0.12f, 1.0f));
 		ImControlBase::ExtDrawLine(LineBeginTemp, CenterPoint, ImVec4(1.0f, 0.0f, 0.0f, 0.98f), IndicatorWidth);
 		ImControlBase::ExtDrawCircleFill(CenterPoint, 24.0f, ImVec4(0.16f, 0.16f, 0.16f, 1.0f));
@@ -175,7 +175,7 @@ namespace IMFXC_CWIN {
 		ImGui::SetWindowFontScale(1.42f);
 
 		if (DashboardStart) {
-			// ÒÇ±í¿ª»ú×Ô¼ì(Ä£Äâ).
+			// ä»ªè¡¨å¼€æœºè‡ªæ£€(æ¨¡æ‹Ÿ).
 			if (SelfInspStatusFlag && DashboardValue.x < DashboardValueLimit.x + 1.0f) {
 				ValueSmoothFlag = true;
 				DashboardValue.x = DashboardValueLimit.y;
@@ -184,7 +184,7 @@ namespace IMFXC_CWIN {
 				SelfInspStatusFlag = false;
 				DashboardValue.x = DashboardValueLimit.x;
 			}
-			// Æ½»¬²åÖµ¼ÆËã¹Ø±Õ.
+			// å¹³æ»‘æ’å€¼è®¡ç®—å…³é—­.
 			if (abs(DashboardValue.x - DashboardValue.y) < 0.25f)
 				ValueSmoothFlag = false;
 			DashboardColorSub.x = 0.0f;
@@ -192,6 +192,8 @@ namespace IMFXC_CWIN {
 		else {
 			DashboardColorSub.x = 0.78f;
 			DashboardValue.x = DashboardValueLimit.x;
+			// ä»ªè¡¨å…³é—­æŒ‡é’ˆå½’ä½åŠ¨ç”».
+			ValueSmoothFlag = true;
 			SelfInspStatusFlag = true;
 		}
 
@@ -215,7 +217,7 @@ namespace IMFXC_CWIN {
 		// value dis window.
 		ImVec2 DisWinSizeTemp = ImVec2(size.x * 0.32f, size.y * 0.08f);
 
-		// ×Ó´°¿ÚÄÚ»æÖÆÓÅÏÈ¼¶¸ü¸ß, ËùÒÔ¾ØÐÎ±³¾°¶ÀÁ¢³öÀ´.
+		// å­çª—å£å†…ç»˜åˆ¶ä¼˜å…ˆçº§æ›´é«˜, æ‰€ä»¥çŸ©å½¢èƒŒæ™¯ç‹¬ç«‹å‡ºæ¥.
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
 		ImControlBase::ExtDrawRectangleFill(
 			ImVec2(size.x * 0.5f - size.x * 0.16f, size.y * 0.725f),
