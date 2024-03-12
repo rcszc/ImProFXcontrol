@@ -1,5 +1,5 @@
 # ImProFXcontrol
-> 与 ImProFX 框架无关只依赖 ImGui核心 与 标准库 的ImGui自制控件.
+> 只依赖 ImGui核心 与 标准库 的ImGui自制控件.
 
 - __新增:__ 新增模拟仪表盘.
 - __公告:__ 持续不定时更新中...如果有新增控件b站会同步发视频.
@@ -16,8 +16,6 @@ __文档:__ [里边请~](https://github.com/rcszc/ImProFXcontrol/blob/main/im_do
   <img src="im_docs/IMPROFX_IPFC3.png" style="width:40%;"/>
   <img src="im_docs/IMPROFX_IPFC4.png" style="width:31%;"/>
 </p>
-
-至于 __ImProFX框架__ 目前属于搁置期(纯屎山): [ImProFX](https://github.com/rcszc/ImProFX)
 
 ---
 
