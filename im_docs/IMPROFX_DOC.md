@@ -9,7 +9,7 @@
 - 标准库: ```string``` ```vector``` ```cstdio```
 - ImGui: ```imgui_glfw/imgui.h``` ```imgui_glfw/imgui_internal.h```
   
-> 使用时记得前往 improfx_control_base.hpp 把imgui替换为自己的路径, 然后引入 improfx_control.h 即可 ~
+> 使用时记得前往 improfx_control_base.h 把imgui替换为自己的路径, 然后引入 improfx_control.h 即可 ~
 
 __说明:__ ImProFXcontrol 是独立于ImProFX框架的ImGui自制控件, 只依赖于ImGui核心和标准库, 可以容易的集成到自己的C++ImGui项目中.
 
