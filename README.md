@@ -1,10 +1,10 @@
 # ImProFXcontrol
 > 只依赖 ImGui核心 与 标准库 的ImGui自制控件.
 
-- __新增:__ 新增模拟仪表盘.
+- __新增:__ 无.
 - __公告:__ 持续不定时更新中...如果有新增控件b站会同步发视频.
-- __更新:__ 新增子窗口控件, 修复了一些BUG.
-> Code: 2024.02.18 Docs: 2024.02.18 RCSZ
+- __更新:__ 重构了Base, 修复了许多Bug, 仪表盘控件被列为"陈旧控件".
+> Code: 2024.04.20 Docs: 2024.04.21 RCSZ
 
 __文档:__ [里边请~](https://github.com/rcszc/ImProFXcontrol/blob/main/im_docs/IMPROFX_DOC.md)
 
