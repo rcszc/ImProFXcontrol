@@ -5,32 +5,34 @@
 
 namespace IMFXC_CWIN {
 	void SmoothMenuChildWindow::DrawMenuTypeRect(float rect_height, const ImVec4& color) {
-		// fill selection_box.
-		ImControlBase::ExtDrawRectangleFill(
-			ImVec2(ImControlBase::ExtItemCenteredCalc(MenuBufferWidthType.y), MenuBufferYposType.y),
-			ImVec2(MenuBufferWidthType.y, rect_height + 2.0f),
-			color
-		);
-		ImGui::SetCursorPos(ImVec2(0.0f, 0.0f));
+		if (MenuBufferWidthType.y > 0.1f) {
+			// fill selection_box.
+			IM_CONTROL_BASE::ListDrawRectangleFill(
+				ImVec2(IM_CONTROL_BASE::ItemCenteredCalc(MenuBufferWidthType.y), MenuBufferTypeScroll.y),
+				ImVec2(MenuBufferWidthType.y, rect_height + 2.0f),
+				color
+			);
+			ImGui::SetCursorPos(ImVec2(0.0f, 0.0f));
+		}
 	}
 
 	void SmoothMenuChildWindow::DrawMenuItemRect(float rect_height, const ImVec4& color) {
 		// fill item_box.
-		ImControlBase::ExtDrawRectangleFill(
-			ImVec2(ImControlBase::ExtItemCenteredCalc(MenuBufferWidthItem.y), MenuBufferYposItem.y),
+		IM_CONTROL_BASE::ListDrawRectangleFill(
+			ImVec2(IM_CONTROL_BASE::ItemCenteredCalc(MenuBufferWidthItem.y), MenuBufferItemScroll.y),
 			ImVec2(MenuBufferWidthItem.y, rect_height + 2.0f),
 			color
 		);
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 1.2f);
 		// fill item_location_box.
-		ImControlBase::ExtDrawRectangleFill(
-			ImVec2(ImGui::GetWindowSize().x - 12.0f, MenuBufferYposItem.y),
+		IM_CONTROL_BASE::ListDrawRectangleFill(
+			ImVec2(ImGui::GetWindowSize().x - 12.0f, MenuBufferItemScroll.y),
 			ImVec2(IMGUI_ITEM_SPAC, rect_height + 2.0f),
 			color
 		);
 		// fill item_location_dir.
-		ImControlBase::ExtDrawTriangleFill(
-			ImVec2(IMGUI_ITEM_SPAC * 2.0f, MenuBufferYposItem.y + (rect_height + 2.0f) * 0.5f),
+		IM_CONTROL_BASE::ListDrawTriangleFill(
+			ImVec2(IMGUI_ITEM_SPAC * 2.0f, MenuBufferItemScroll.y + (rect_height + 2.0f) * 0.5f),
 			ImVec2(-rect_height / 2.0f, -rect_height / 2.0f),
 			ImVec2(-rect_height / 2.0f, rect_height / 2.0f),
 			color
@@ -55,12 +57,12 @@ namespace IMFXC_CWIN {
 		float                           text_scale
 	) {
 		ImGui::BeginChild(name, size);
-		ImControlBase::ExtDrawRectangleFill(ImVec2(), size, ImControlBase::ExtColorBrightnesScale(color, 0.65f));
+		IM_CONTROL_BASE::ListDrawRectangleFill(ImVec2(), size, IM_CONTROL_BASE::ColorBrightnesScale(color, 0.65f));
 		ImGui::SetWindowFontScale(text_scale);
 
 		if (ImGui::IsWindowHovered())
-			DrawMenuTypeRect(TextDrawHeight, ImControlBase::ExtColorBrightnesScale(color, 0.32f));
-		DrawMenuItemRect(TextDrawHeight, ImControlBase::ExtColorBrightnesScale(color, 0.42f));
+			DrawMenuTypeRect(TextDrawHeight, IM_CONTROL_BASE::ColorBrightnesScale(color, 0.32f));
+		DrawMenuItemRect(TextDrawHeight, IM_CONTROL_BASE::ColorBrightnesScale(color, 0.42f));
 
 		bool ReturnTypeFlag = false;
 		// draw menu_items.
@@ -69,11 +71,11 @@ namespace IMFXC_CWIN {
 			ImVec2 ItemTextSize = ImGui::CalcTextSize(items[i].c_str());
 			float DrawHeightPosition = ImGui::GetCursorPosY();
 
-			ImGui::SetCursorPosX(ImControlBase::ExtItemCenteredCalc(ItemTextSize.x));
+			ImGui::SetCursorPosX(IM_CONTROL_BASE::ItemCenteredCalc(ItemTextSize.x));
 			ImGui::Text(items[i].c_str());
 
 			if (ImGui::IsItemHovered()) {
-				MenuBufferYposType.x = DrawHeightPosition - ImGui::GetScrollY();
+				MenuBufferTypeScroll.x = DrawHeightPosition - ImGui::GetScrollY();
 				MenuBufferWidthType.x = ItemTextSize.x + IMGUI_ITEM_SPAC * 2.0f;
 
 				if (ImGui::GetMouseClickedCount(0)) {
@@ -82,13 +84,13 @@ namespace IMFXC_CWIN {
 				}
 			}
 			if (count == (uint32_t)i) {
-				MenuBufferYposItem.x = DrawHeightPosition - ImGui::GetScrollY();
+				MenuBufferItemScroll.x = DrawHeightPosition - ImGui::GetScrollY();
 				MenuBufferWidthItem.x = ItemTextSize.x + IMGUI_ITEM_SPAC * 2.0f;
 			}
 			TextDrawHeight = ItemTextSize.y;
 		}
-		MenuInterCalc(MenuBufferYposType, MenuBufferWidthType, speed);
-		MenuInterCalc(MenuBufferYposItem, MenuBufferWidthItem, speed);
+		MenuInterCalc(MenuBufferTypeScroll, MenuBufferWidthType, speed);
+		MenuInterCalc(MenuBufferItemScroll, MenuBufferWidthItem, speed);
 
 		ImGui::PopStyleColor();
 		ImGui::EndChild();

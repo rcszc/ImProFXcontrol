@@ -1,21 +1,20 @@
 // improfx_control_dashboard. RCSZ. [20240216]
 // ImGui: [ChildWindow(BeginChild_EndChild)], Aashboard View, Update: 20240216.
 
+#include "improfx_control_base_ms.h"
 #include "improfx_control.h"
-
-#define LIMIT_CLAMP(value, min, max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
 
 constexpr ImVec2 SemicircleDeg = ImVec2(45.0f, 315.0f);
 constexpr ImVec2 RulerScaleLen = ImVec2(3.0f, 1.2f);
 constexpr float IndicatorWidth = 7.2f;
 
 inline void LEDSTATE(bool STAT, const ImVec2& POS, const ImVec4& HCOLOR, const ImVec4& LCOLOR) {
-	if (STAT) ImControlBase::ExtDrawRectangleFill(POS, ImVec2(40.0f, 20.0f), HCOLOR);
-	else      ImControlBase::ExtDrawRectangleFill(POS, ImVec2(40.0f, 20.0f), LCOLOR);
+	if (STAT) IM_CONTROL_BASE::ListDrawRectangleFill(POS, ImVec2(40.0f, 20.0f), HCOLOR);
+	else      IM_CONTROL_BASE::ListDrawRectangleFill(POS, ImVec2(40.0f, 20.0f), LCOLOR);
 }
 
-#include <iostream>
 namespace IMFXC_CWIN {
+#ifdef OLD_CONTROL_DASHBOAR
 
 	void DashboardChildWindow::DrawSemicircleBox(float window_width, float y_offset, uint32_t ruler, const ImVec4& color) {
 		float DrawOffsetHigh = window_width * 0.5f;
@@ -46,7 +45,7 @@ namespace IMFXC_CWIN {
 					sin(IMFXC_DEGTORAD(i)) * (CircleRadius.x - IMGUI_ITEM_SPAC * RulerScaleLen.x) + DrawOffsetHigh,
 					cos(IMFXC_DEGTORAD(i)) * (CircleRadius.x - IMGUI_ITEM_SPAC * RulerScaleLen.x) + y_offset
 				);
-				ImControlBase::ExtDrawLine(LineEndInnerTemp, LineRulerTemp, color, 4.0f);
+				IM_CONTROL_BASE::ListDrawLine(LineEndInnerTemp, LineRulerTemp, color, 4.0f);
 				RulerDrawCount.x += 1.0f;
 			}
 
@@ -56,11 +55,11 @@ namespace IMFXC_CWIN {
 					sin(IMFXC_DEGTORAD(i)) * (CircleRadius.x - IMGUI_ITEM_SPAC * RulerScaleLen.y) + DrawOffsetHigh,
 					cos(IMFXC_DEGTORAD(i)) * (CircleRadius.x - IMGUI_ITEM_SPAC * RulerScaleLen.y) + y_offset
 				);
-				ImControlBase::ExtDrawLine(LineEndInnerTemp, LineRulerTemp, color, 2.2f);
+				IM_CONTROL_BASE::ListDrawLine(LineEndInnerTemp, LineRulerTemp, color, 2.2f);
 				RulerDrawCount.y += 1.0f;
 			}
 
-			ImControlBase::ExtDrawLine(LineBeginInnerTemp, LineEndInnerTemp, color, 4.8f);
+			IM_CONTROL_BASE::ListDrawLine(LineBeginInnerTemp, LineEndInnerTemp, color, 4.8f);
 			LineBeginInnerTemp = LineEndInnerTemp;
 		}
 
@@ -76,12 +75,12 @@ namespace IMFXC_CWIN {
 				sin(IMFXC_DEGTORAD(i)) * CircleRadius.y + DrawOffsetHigh,
 				cos(IMFXC_DEGTORAD(i)) * CircleRadius.y + y_offset
 			);
-			ImControlBase::ExtDrawLine(LineBeginOuterTemp, LineEndOuterTemp, color, 16.0f);
+			IM_CONTROL_BASE::ListDrawLine(LineBeginOuterTemp, LineEndOuterTemp, color, 16.0f);
 			LineBeginOuterTemp = LineEndOuterTemp;
 		}
 
 		// end ruler_scale.
-		ImControlBase::ExtDrawLine(
+		IM_CONTROL_BASE::ListDrawLine(
 			ImVec2(
 				sin(IMFXC_DEGTORAD(SemicircleDeg.y)) * CircleRadius.x + DrawOffsetHigh,
 				cos(IMFXC_DEGTORAD(SemicircleDeg.y)) * CircleRadius.x + y_offset),
@@ -103,7 +102,7 @@ namespace IMFXC_CWIN {
 		auto DrawTextFunc = [&](const char* DrawText, const ImVec2& DrawPos) {
 			// imgui draw offset_text.
 			ImVec2 TextSizeOffset = ImGui::CalcTextSize(DrawText);
-			ImControlBase::ExtDrawText(ImVec2(DrawPos.x - TextSizeOffset.x * 0.5f, DrawPos.y - TextSizeOffset.y * 0.5f), color, DrawText);
+			IM_CONTROL_BASE::ListDrawText(ImVec2(DrawPos.x - TextSizeOffset.x * 0.5f, DrawPos.y - TextSizeOffset.y * 0.5f), color, DrawText);
 		};
 
 		std::string DrawTextTemp = {};
@@ -141,7 +140,7 @@ namespace IMFXC_CWIN {
 		float ValueLength = limit.y - limit.x;
 		float ValueProportion = (value - limit.x) / ValueLength;
 
-		ValueProportion = LIMIT_CLAMP(ValueProportion, 0.0f, 1.0f);
+		ValueProportion = IMFXC_V_CLAMP(ValueProportion, 0.0f, 1.0f);
 
 		ImVec2 CenterPoint = ImVec2(window_width * 0.5f, y_offset);
 		ImVec2 LineBeginTemp = ImVec2(
@@ -150,9 +149,9 @@ namespace IMFXC_CWIN {
 		);
 
 		// 仪表指针基座 => 仪表指针 => 指针盖.
-		ImControlBase::ExtDrawCircleFill(CenterPoint, 32.0f, ImVec4(0.12f, 0.12f, 0.12f, 1.0f));
-		ImControlBase::ExtDrawLine(LineBeginTemp, CenterPoint, ImVec4(1.0f, 0.0f, 0.0f, 0.98f), IndicatorWidth);
-		ImControlBase::ExtDrawCircleFill(CenterPoint, 24.0f, ImVec4(0.16f, 0.16f, 0.16f, 1.0f));
+		IM_CONTROL_BASE::ListDrawCircleFill(CenterPoint, 32.0f, ImVec4(0.12f, 0.12f, 0.12f, 1.0f));
+		IM_CONTROL_BASE::ListDrawLine(LineBeginTemp, CenterPoint, ImVec4(1.0f, 0.0f, 0.0f, 0.98f), IndicatorWidth);
+		IM_CONTROL_BASE::ListDrawCircleFill(CenterPoint, 24.0f, ImVec4(0.16f, 0.16f, 0.16f, 1.0f));
 	}
 
 	bool DashboardChildWindow::DrawDashboardWindow(
@@ -165,7 +164,7 @@ namespace IMFXC_CWIN {
 	) {
 		if (!SelfInspStatusFlag && DashboardStart)
 			DashboardValue.x = value;
-		DashboardValue.x = LIMIT_CLAMP(DashboardValue.x, DashboardValueLimit.x, DashboardValueLimit.y);
+		DashboardValue.x = IMFXC_V_CLAMP(DashboardValue.x, DashboardValueLimit.x, DashboardValueLimit.y);
 
 		// value_limit: min > max.
 		if (DashboardValueLimit.x >= DashboardValueLimit.y)
@@ -201,13 +200,13 @@ namespace IMFXC_CWIN {
 			DashboardStart && SelfInspStatusFlag, 
 			ImVec2(IMGUI_ITEM_SPAC, IMGUI_ITEM_SPAC), 
 			ImVec4(1.0f, 0.0f, 0.0f, 1.0f), 
-			ImControlBase::ExtColorBrightnesScale(color, 0.78f)
+			IM_CONTROL_BASE::ColorBrightnesScale(color, 0.78f)
 		);
 		LEDSTATE(
 			DashboardStart && !SelfInspStatusFlag, 
 			ImVec2(40.0f + IMGUI_ITEM_SPAC * 2.0f, IMGUI_ITEM_SPAC),
 			ImVec4(0.0f, 1.0f, 0.0f, 1.0f), 
-			ImControlBase::ExtColorBrightnesScale(color, 0.78f)
+			IM_CONTROL_BASE::ColorBrightnesScale(color, 0.78f)
 		);
 
 		ImGui::SetNextWindowPos(ImVec2(
@@ -219,10 +218,10 @@ namespace IMFXC_CWIN {
 
 		// 子窗口内绘制优先级更高, 所以矩形背景独立出来.
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 12.0f);
-		ImControlBase::ExtDrawRectangleFill(
+		IM_CONTROL_BASE::ListDrawRectangleFill(
 			ImVec2(size.x * 0.5f - size.x * 0.16f, size.y * 0.725f),
 			DisWinSizeTemp, 
-			ImControlBase::ExtColorBrightnesScale(color, 0.58f)
+			IM_CONTROL_BASE::ColorBrightnesScale(color, 0.58f)
 		);
 		ImGui::PopStyleVar();
 
@@ -235,16 +234,16 @@ namespace IMFXC_CWIN {
 			ImVec2 TextWidth = ImGui::CalcTextSize(ValueTextBuffer);
 			ImVec2 DrawTextPos = ImVec2(DisWinSizeTemp.x * 0.5f - TextWidth.x * 0.5f, 0.0f);
 			if (DashboardStart)
-				ImControlBase::ExtDrawText(
+				IM_CONTROL_BASE::ListDrawText(
 					DrawTextPos, 
-					ImControlBase::ExtColorBrightnesScale(color, DashboardColorSub.y), 
+					IM_CONTROL_BASE::ColorBrightnesScale(color, DashboardColorSub.y), 
 					"%0.2f", value
 				);
 		}
 		ImGui::EndChild();
 
-		DrawSemicircleBox(size.x, size.y * 0.6f, ruler,ImControlBase::ExtColorBrightnesScale(color, DashboardColorSub.y));
-		DrawRulerscaleValue(size.x, size.y * 0.6f, ruler, DashboardValueLimit, ImControlBase::ExtColorBrightnesScale(color, DashboardColorSub.y));
+		DrawSemicircleBox(size.x, size.y * 0.6f, ruler,IM_CONTROL_BASE::ColorBrightnesScale(color, DashboardColorSub.y));
+		DrawRulerscaleValue(size.x, size.y * 0.6f, ruler, DashboardValueLimit, IM_CONTROL_BASE::ColorBrightnesScale(color, DashboardColorSub.y));
 		DrawIndicator(size.x, size.y * 0.6f, DashboardValue.y, DashboardValueLimit, color);
 		
 		// color & value inter_calc.
@@ -257,4 +256,5 @@ namespace IMFXC_CWIN {
 		ImGui::EndChild();
 		return ImGui::IsWindowHovered();
 	}
+#endif
 }

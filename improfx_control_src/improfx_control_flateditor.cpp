@@ -1,6 +1,8 @@
 // improfx_control_flateditor. RCSZ. [20231224]
 // ImGui: [Window(Begin_End)], Flat Coordinate Editor, Update: 20240216.
 
+#define IMPROFX_CONTROL_BASE_MATHS
+#include "improfx_control_base_ms.h"
 #include "improfx_control.h"
 
 #define LIMIT_CLAMP(value, min, max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
@@ -20,26 +22,26 @@ namespace IMFXC_WIN {
 	void FlatEditorWindow::DrawCoordinateXRuler(const ImVec2& limit, const ImVec4& color, float length, float center, float scale, float ruler) {
 		for (float i = limit.x * scale + center; i < limit.y * scale + center + 0.1f; i += ruler * scale) {
 			// ruler main scale.
-			ImControlBase::ExtDrawLine(ImVec2(i, 0.0f), ImVec2(i, length), color, 1.8f);
+			IM_CONTROL_BASE::ListDrawLine(ImVec2(i, 0.0f), ImVec2(i, length), color, 1.8f);
 			if (scale > 0.72f)
 				for (float j = 0.0f; j < ruler / RulerScaleValue; j += 1.0f)
-					ImControlBase::ExtDrawLine(ImVec2(i + RulerScaleValue * scale * j, 0.0f), ImVec2(i + RulerScaleValue * scale * j, length * 0.58f), color, 1.2f);
+					IM_CONTROL_BASE::ListDrawLine(ImVec2(i + RulerScaleValue * scale * j, 0.0f), ImVec2(i + RulerScaleValue * scale * j, length * 0.58f), color, 1.2f);
 		}
 	}
 
 	void FlatEditorWindow::DrawCoordinateYRuler(const ImVec2& limit, const ImVec4& color, float length, float center, float scale, float ruler) {
 		for (float i = limit.x * scale + center; i < limit.y * scale + center + 0.1f; i += ruler * scale) {
 			// ruler main scale.
-			ImControlBase::ExtDrawLine(ImVec2(0.0f, i), ImVec2(length, i), color, 1.8f);
+			IM_CONTROL_BASE::ListDrawLine(ImVec2(0.0f, i), ImVec2(length, i), color, 1.8f);
 			if (scale > 0.72f)
 				for (float j = 0.0f; j < ruler / RulerScaleValue; j += 1.0f)
-					ImControlBase::ExtDrawLine(ImVec2(0.0f, i + RulerScaleValue * scale * j), ImVec2(length * 0.58f, i + RulerScaleValue * scale * j), color, 1.2f);
+					IM_CONTROL_BASE::ListDrawLine(ImVec2(0.0f, i + RulerScaleValue * scale * j), ImVec2(length * 0.58f, i + RulerScaleValue * scale * j), color, 1.2f);
 		}
 	}
 
 	void FlatEditorWindow::DrawCoordinateLines(const ImVec4& color, const ImVec2& mouse, const ImVec2& win_size) {
-		ImControlBase::ExtDrawLine(ImVec2(mouse.x, 0.0f), ImVec2(mouse.x, mouse.y), color, 1.2f);
-		ImControlBase::ExtDrawLine(ImVec2(0.0f, mouse.y), ImVec2(mouse.x, mouse.y), color, 1.2f);
+		IM_CONTROL_BASE::ListDrawLine(ImVec2(mouse.x, 0.0f), ImVec2(mouse.x, mouse.y), color, 1.2f);
+		IM_CONTROL_BASE::ListDrawLine(ImVec2(0.0f, mouse.y), ImVec2(mouse.x, mouse.y), color, 1.2f);
 	}
 
 	void FlatEditorWindow::DrawGrid(
@@ -49,11 +51,11 @@ namespace IMFXC_WIN {
 		ImVec2 DrawPosition(pos.x + win_size.x * 0.5f, pos.y + win_size.y * 0.5f);
 
 		for (float i = limitx.x * scale + DrawPosition.x; i < limitx.y * scale + DrawPosition.x + 0.1f; i += ruler * scale)
-			ImControlBase::ExtDrawLine(ImVec2(i, limity.x * scale + DrawPosition.y), ImVec2(i, limity.y * scale + DrawPosition.y), color, 1.8f);
+			IM_CONTROL_BASE::ListDrawLine(ImVec2(i, limity.x * scale + DrawPosition.y), ImVec2(i, limity.y * scale + DrawPosition.y), color, 1.8f);
 		for (float i = limity.x * scale + DrawPosition.y; i < limity.y * scale + DrawPosition.y + 0.1f; i += ruler * scale)
-			ImControlBase::ExtDrawLine(ImVec2(limitx.x * scale + DrawPosition.x, i), ImVec2(limitx.y * scale + DrawPosition.x, i), color, 1.8f);
+			IM_CONTROL_BASE::ListDrawLine(ImVec2(limitx.x * scale + DrawPosition.x, i), ImVec2(limitx.y * scale + DrawPosition.x, i), color, 1.8f);
 
-		ImControlBase::ExtDrawCircleFill(DrawPosition, 3.2f, ImControlBase::ExtColorBrightnesScale(color, -0.16f));
+		IM_CONTROL_BASE::ListDrawCircleFill(DrawPosition, 3.2f, IM_CONTROL_BASE::ColorBrightnesScale(color, -0.16f));
 	}
 
 	void FlatEditorWindow::PositioningWindow(
@@ -69,16 +71,16 @@ namespace IMFXC_WIN {
 			PosWinCurrPosition.x = size * (limitx.y * scale - index.x) / (limitx.y * scale - limitx.x * scale) - WindowCenter.x;
 			PosWinCurrPosition.y = size * (limity.y * scale - index.y) / (limity.y * scale - limity.x * scale) - WindowCenter.y;
 
-			ImVec2 WindowMousePos = IMVEC2_SUB2(IMVEC2_SUB2(ImGui::GetMousePos(), ImGui::GetWindowPos()), WindowCenter);   // 鼠标相对子窗口中心坐标.
+			ImVec2 WindowMousePos = ImGui::GetMousePos() - ImGui::GetWindowPos() - WindowCenter;   // 鼠标相对子窗口中心坐标.
 			ImVec2 Proportion((limitx.y * scale - limitx.x * scale) / size, (limity.y * scale - limity.x * scale) / size); // 映射到网格窗口坐标缩放比例.
 
-			ImControlBase::ExtDrawRectangleFill(ImVec2(0.0f, 0.0f), ImVec2(size, size), ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.64f));
+			IM_CONTROL_BASE::ListDrawRectangleFill(ImVec2(0.0f, 0.0f), ImVec2(size, size), IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.64f));
 			if (texture)
 				ImGui::Image(texture, ImVec2(size, size));
 
-			ImControlBase::ExtDrawLine(ImVec2(WindowCenter.x, 0.0f), ImVec2(WindowCenter.x, size), ImControlBase::ExtColorBrightnesScale(color, 0.32f), 2.0f);
-			ImControlBase::ExtDrawLine(ImVec2(0.0f, WindowCenter.y), ImVec2(size, WindowCenter.y), ImControlBase::ExtColorBrightnesScale(color, 0.32f), 2.0f);
-			ImControlBase::ExtDrawCircleFill(IMVEC2_ADD2(PosWinCurrPosition, WindowCenter), PoswinCircleSize, ImVec4(color.x, color.y, color.z, 0.48f));
+			IM_CONTROL_BASE::ListDrawLine(ImVec2(WindowCenter.x, 0.0f), ImVec2(WindowCenter.x, size), IM_CONTROL_BASE::ColorBrightnesScale(color, 0.32f), 2.0f);
+			IM_CONTROL_BASE::ListDrawLine(ImVec2(0.0f, WindowCenter.y), ImVec2(size, WindowCenter.y), IM_CONTROL_BASE::ColorBrightnesScale(color, 0.32f), 2.0f);
+			IM_CONTROL_BASE::ListDrawCircleFill(PosWinCurrPosition + WindowCenter, PoswinCircleSize, ImVec4(color.x, color.y, color.z, 0.48f));
 
 			if (ImGui::IsMouseDown(0) && IMVEC2_DISTANCE(WindowMousePos, PosWinCurrPosition) < PoswinCircleSize && PosWinCurrFocus) {
 				PosWinCurrFocus = true;
@@ -116,15 +118,15 @@ namespace IMFXC_WIN {
 		ImGui::PushID(unqiue_id);
 
 		// frame_background color.
-		ImGui::PushStyleColor(ImGuiCol_FrameBg, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f));
-		ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f));
-		ImGui::PushStyleColor(ImGuiCol_FrameBgActive, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBgActive, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
 		// slider_block color.
-		ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.16f));
-		ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.16f));
+		ImGui::PushStyleColor(ImGuiCol_SliderGrab, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.16f));
+		ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.16f));
 		// button color.
-		ImGui::PushStyleColor(ImGuiCol_Button, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.2f));
+		ImGui::PushStyleColor(ImGuiCol_Button, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.2f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, EditorColorSystem);
 
 		ImGui::Begin(name, p_open, WindowFlags | flags);
@@ -153,8 +155,8 @@ namespace IMFXC_WIN {
 			ImVec2 GridWindowPos = ImVec2(RulerWinWidth + IMGUI_ITEM_SPAC * 1.5f, RulerWinWidth + IMGUI_ITEM_SPAC * 4.75f);
 			// grid window scale.
 			if (ImGui::IsMouseHoveringRect(
-				ImVec2(IMVEC2_ADD2(ImGui::GetWindowPos(), GridWindowPos)),
-				ImVec2(IMVEC2_ADD2(ImGui::GetWindowPos(), IMVEC2_ADD2(GridWindowPos, coord_winsize)))
+				ImGui::GetWindowPos() + GridWindowPos,
+				ImGui::GetWindowPos() + GridWindowPos + coord_winsize
 			))
 				GridSizeScale.x += ImGui::GetIO().MouseWheel * 0.12f * GridSizeScale.x;
 
@@ -167,8 +169,8 @@ namespace IMFXC_WIN {
 			// mouse move coord.
 			if (ImGui::IsMouseDown(0) && ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows) && GridWinFocus &&
 				ImGui::IsMouseHoveringRect(
-					ImVec2(IMVEC2_ADD2(ImGui::GetWindowPos(), GridWindowPos)),
-					ImVec2(IMVEC2_ADD2(ImGui::GetWindowPos(), IMVEC2_ADD2(GridWindowPos, coord_winsize)))
+					ImGui::GetWindowPos() + GridWindowPos,
+					ImGui::GetWindowPos() + GridWindowPos + coord_winsize
 				)) {
 				GridWinFocus = true;
 
@@ -205,7 +207,7 @@ namespace IMFXC_WIN {
 					GridSizeScale.y
 				);
 
-				DrawGrid(CoordXLimit, CoordYLimit, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.64f), GridCenterPositionSmooth, coord_winsize, GridSizeScale.y);
+				DrawGrid(CoordXLimit, CoordYLimit, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.64f), GridCenterPositionSmooth, coord_winsize, GridSizeScale.y);
 				// grid_draw function.
 				draw(EditorCoordInfo);
 				// mouse right click. [selection_box]
@@ -225,18 +227,18 @@ namespace IMFXC_WIN {
 					ImVec2 CalcBoxMin = EXCHPOINTS_MIN(EditorSeleBoxVirPoints[0], EditorSeleBoxVirPoints[1]);
 					ImVec2 CalcBoxMax = EXCHPOINTS_MAX(EditorSeleBoxVirPoints[0], EditorSeleBoxVirPoints[1]);
 
-					ImVec2 SeleBoxLen = IMVEC2_SUB2(CalcBoxMax, CalcBoxMin);
+					ImVec2 SeleBoxLen = CalcBoxMax - CalcBoxMin;
 					// floating window (display size).
 					ImGui::BeginTooltip();
 					ImGui::Text("Size:%0.2f", SeleBoxLen.x * SeleBoxLen.y);
 					ImGui::EndTooltip();
 
 					// draw selection box color.
-					ImVec4 BoxColor = ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f);
+					ImVec4 BoxColor = IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f);
 					// draw selection box.
 					ImGui::GetWindowDrawList()->AddRectFilled(
-						IMVEC2_ADD2(ImGui::GetWindowPos(), DrawBoxMin),
-						IMVEC2_ADD2(ImGui::GetWindowPos(), DrawBoxMax),
+						ImGui::GetWindowPos() + DrawBoxMin,
+						ImGui::GetWindowPos() + DrawBoxMax,
 						IMVEC4_CVT_COLU32(BoxColor),
 						ImGui::GetStyle().FrameRounding,
 						NULL
@@ -255,14 +257,14 @@ namespace IMFXC_WIN {
 			ImGui::SetCursorPos(ImVec2(RulerWinWidth + IMGUI_ITEM_SPAC * 1.5f, IMGUI_ITEM_SPAC * 4.25f));
 			ImGui::BeginChild("@COORDX", ImVec2(coord_winsize.x, RulerWinWidth));
 			{
-				ImControlBase::ExtDrawRectangleFill(
+				IM_CONTROL_BASE::ListDrawRectangleFill(
 					ImVec2(0.0f, 0.0f),
 					ImVec2(coord_winsize.x, RulerWinWidth),
-					ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f)
+					IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f)
 				);
 				DrawCoordinateXRuler(CoordXLimit, EditorColorSystem, 15.0f, RulerDrawPos.x, GridSizeScale.y);
 				// mouse position_x cursor.
-				ImControlBase::ExtDrawLine(ImVec2(WindowMousePos.x, 0.0f), ImVec2(WindowMousePos.x, RulerWinWidth), RulerCursorColor, 2.0f);
+				IM_CONTROL_BASE::ListDrawLine(ImVec2(WindowMousePos.x, 0.0f), ImVec2(WindowMousePos.x, RulerWinWidth), RulerCursorColor, 2.0f);
 			}
 			ImGui::EndChild();
 
@@ -270,14 +272,14 @@ namespace IMFXC_WIN {
 			ImGui::SetCursorPos(ImVec2(IMGUI_ITEM_SPAC, RulerWinWidth + IMGUI_ITEM_SPAC * 4.75f));
 			ImGui::BeginChild("@COORDY", ImVec2(RulerWinWidth, coord_winsize.y));
 			{
-				ImControlBase::ExtDrawRectangleFill(
+				IM_CONTROL_BASE::ListDrawRectangleFill(
 					ImVec2(0.0f, 0.0f),
 					ImVec2(RulerWinWidth, coord_winsize.y),
-					ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.58f)
+					IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f)
 				);
 				DrawCoordinateYRuler(CoordYLimit, EditorColorSystem, 15.0f, RulerDrawPos.y, GridSizeScale.y);
 				// mouse position_y cursor.
-				ImControlBase::ExtDrawLine(ImVec2(0.0f, WindowMousePos.y), ImVec2(RulerWinWidth, WindowMousePos.y), RulerCursorColor, 2.0f);
+				IM_CONTROL_BASE::ListDrawLine(ImVec2(0.0f, WindowMousePos.y), ImVec2(RulerWinWidth, WindowMousePos.y), RulerCursorColor, 2.0f);
 			}
 			ImGui::EndChild();
 
@@ -286,7 +288,7 @@ namespace IMFXC_WIN {
 			ImGui::SetCursorPos(ImVec2(RulerWinWidth + IMGUI_ITEM_SPAC * 2.5f + coord_winsize.x, IMGUI_ITEM_SPAC * 4.25f));
 			ImGui::BeginChild("@INFOWIN", ToolbarSize);
 			{
-				ImControlBase::ExtDrawRectangleFill(ImVec2(0.0f, 0.0f), ToolbarSize, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.64f));
+				IM_CONTROL_BASE::ListDrawRectangleFill(ImVec2(0.0f, 0.0f), ToolbarSize, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.64f));
 
 				ImGui::SetNextItemWidth(ToolbarSize.x - ImGui::CalcTextSize("Grid").x - IMGUI_ITEM_SPAC);
 				ImGui::InputFloat2("GRID", &GridCenterPosition.x, "%.0f");

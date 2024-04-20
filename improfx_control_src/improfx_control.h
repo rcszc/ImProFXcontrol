@@ -1,5 +1,5 @@
 // improfx_control. RCSZ.
-// [ImProFXcontrol] CPP17 MSVC.
+// CoreImGui, ISO_C11, ISO_C++17, MSVCx64.
 
 #ifndef _IMPROFX_CONTROL_H
 #define _IMPROFX_CONTROL_H
@@ -12,23 +12,24 @@
 #include "improfx_control_base.h"
 
 namespace IMFXC_CWIN {
+	
+	// ######################################## SmoothMenu ChildWindow ########################################
+	// PROJ: 2023_12_16 RCSZ. Update: 2024_04_20 RCSZ.
 
-	// ######################################## SmoothMenuChildWindow ########################################
-	// Update: 2024_02_16 RCSZ.
-
-	// [CHILD_WINDOW]: 平滑纵向菜单. 2023_12_16 RCSZ.
+	// [ImGui子窗口]: 平滑纵向菜单.
 	class SmoothMenuChildWindow {
 	protected:
+		ImVec2 MenuBufferTypeScroll = {};
+		ImVec2 MenuBufferWidthType  = {};
+
+		ImVec2 MenuBufferItemScroll = {};
+		ImVec2 MenuBufferWidthItem  = {};
+
 		float TextDrawHeight = 0.0f;
-
-		ImVec2 MenuBufferYposType  = {};
-		ImVec2 MenuBufferWidthType = {};
-
-		ImVec2 MenuBufferYposItem  = {};
-		ImVec2 MenuBufferWidthItem = {};
 
 		void DrawMenuTypeRect(float rect_height, const ImVec4& color);
 		void DrawMenuItemRect(float rect_height, const ImVec4& color);
+
 		void MenuInterCalc(ImVec2& posy_calc, ImVec2& width_calc, float speed);
 
 	public:
@@ -36,17 +37,18 @@ namespace IMFXC_CWIN {
 			const char*                     name,
 			const std::vector<std::string>& items,
 			uint32_t&						count,
-			const ImVec4&					color      = ImVec4(0.55f, 0.12f, 1.0f, 0.72f),
+			const ImVec4&					color      = ImVec4(0.0f, 0.92f, 0.86f, 0.78f),
 			const ImVec2&					size	   = ImVec2(256.0f, 384.0f),
 			float                           speed	   = 1.0f,
 			float                           text_scale = 1.2f
 		);
 	};
 
-	// ######################################## DashboardChildWindow ########################################
-	// Update: 2024_02_16 RCSZ.
+#ifdef ENABLE_OLD_CONTROL_DASHBOAR
+	// ######################################## Dashboard ChildWindow ########################################
+	// PROJ: 2024_02_16 RCSZ. Update: 2024_04_20 RCSZ.
 
-	// [CHILD_WINDOW]: 仪表盘显示. 2024_02_16 RCSZ.
+	// [ImGui子窗口]: 仪表盘显示.
 	class DashboardChildWindow {
 	protected:
 		ImVec2 DashboardValueLimit = ImVec2(0.0f, 400.0f); // x:min, y:max
@@ -77,12 +79,13 @@ namespace IMFXC_CWIN {
 		}
 		bool DashboardStart = false;
 	};
+#endif
 }
 
 namespace IMFXC_WIN {
 
 	// ######################################## AnimAxisEditorWindow ########################################
-	// Update: 2024_04_20 RCSZ.
+	// PROJ: 2023_12_19 RCSZ. Update: 2024_04_20 RCSZ.
 
 #define ANE_COORD_PARAMS 6 
 	// animation points coordinates.
@@ -103,22 +106,29 @@ namespace IMFXC_WIN {
 		float AnimGenVector[ANE_COORD_PARAMS];
 	};
 
-	// [WINDOW]: 动画轴编辑器. 2023_12_19 RCSZ.
+	// [ImGui窗口]: 动画轴编辑器.
 	class AnimAxisEditorWindow {
 	protected:
-		ImVec4 EditorColorPlayer = ImVec4(0.0f, 0.72f, 0.72f, 1.0f);
+		// editor animation button.
+		IM_CONTROL_BASE::IM_ANIM::ButtonAnim AnimButton[6] = {};
+		// editor player_box const_color.
+		const ImVec4 EditorColorPlayer = ImVec4(0.0f, 0.72f, 0.72f, 1.0f);
 
 		float EditorScaleLinesWidth = 1.0f;
-		bool  EditorModeType        = false; // false:[x.y.z], true:[pitch.yaw.roll]
+		// false:[x.y.z], true:[pitch.yaw.roll]
+		bool EditorModeType = false;
 
-		ImVec2 TrackWindowXpos = {};   // x:pos, y:max.
-		float  TrackXpos       = 0.0f; // tick inter_smooth.
+		ImVec2 TrackWindowScrollx = {};   // x:pos, y:max.
+		float  TrackScrollx       = 0.0f; // tick inter_smooth.
 
-		ImVec2 PlayerLineXpos    = {}; // x:pos, y:smooth
-		bool   PlayerSetYposFlag = false;
-		bool   PlayerFlag        = false;
+		ImVec2 PlayerLineScrollx    = {}; // x:pos, y:smooth
+		bool   PlayerSetScrollyFlag = false;
+		bool   PlayerFlag           = false;
 
 		float* NodeSetValuePointer = nullptr;
+
+		ImVec4      SystemAsixColors[3] = {};
+		const char* SystemAsixTexts[3]  = {};
 
 		AnimGenCoord PlayerRunCoord = {};
 		std::vector<AnimCoordSample>* AnimDataIndex = nullptr;
@@ -133,9 +143,13 @@ namespace IMFXC_WIN {
 		void DrawAnimationPoints(const ImVec2& position, float size, const ImVec4& color, float& value);
 		void DrawPlayerLine(ImVec2& position, float offset, float max, const ImVec4& color, float xscale);
 
-		bool RunGetCubicBezierCurve(const ImVec2& point0, const ImVec2& point1, float& value, float playerpos, float centerh);
-
+		bool RunGetCubicBezierCurve(
+			const ImVec2& point0, const ImVec2& point1, float& value, float playerpos, float centerh,
+			std::vector<AnimCoordSample>& src, size_t index
+		);
 	public:
+		AnimAxisEditorWindow();
+
 		bool PlayerRunSample(AnimGenCoord& CoordParam);
 		std::vector<AnimGenCoord> GenerateBakedBezierCurve();
 
@@ -153,11 +167,11 @@ namespace IMFXC_WIN {
 		float TrackWidthValueScale  = 1.0f;
 		float TrackHeightValueScale = 1.0f;
 
-		ImVec4 EditorColorSystem = ImVec4(0.85f, 0.85f, 0.85f, 1.0f);
+		ImVec4 EditorColorSystem = ImVec4(0.86f, 0.86f, 0.86f, 0.94f);
 	};
 
 	// ######################################## FlatEditorWindow ########################################
-	// Update: 2024_02_16 RCSZ.
+	// PROJ: 2023_12_25 RCSZ. Update: 2024_02_16 RCSZ.
 
 	// editor coordinate information.
 	struct CoordSystemInfo {
@@ -175,7 +189,7 @@ namespace IMFXC_WIN {
 		{}
 	};
 
-	// [WINDOW]: 2D平面编辑器. 2023_12_25 RCSZ.
+	// [ImGui窗口]: 2D平面编辑器.
 	class FlatEditorWindow {
 	protected:
 		CoordSystemInfo EditorCoordInfo = {};
