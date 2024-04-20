@@ -3,7 +3,7 @@
 > improfx_control_src/improfx_control.h
 
 ```RCSZ```
-- [x] __Update:__ 2024.02.18
+- [x] __Update:__ 2024.04.20
 ---
 
 - 标准库: ```string``` ```vector``` ```cstdio```
@@ -49,8 +49,7 @@ void DrawMenuWindow(
 
 ## 动画轴编辑器
 > - 窗口: 函数内会调用 ImGui::Begin - ImGui::End
-> - Update: 2024.02.18 修改类名, 修复一些bug
-
+> - Update: 2024.04.20 修复了无节点信息时内存溢出
 __类定义:__
 ```cpp
 class IMFXC_WIN::AnimAxisEditorWindow;
