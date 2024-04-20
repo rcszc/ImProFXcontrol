@@ -3,7 +3,7 @@
 > improfx_control_src/improfx_control.h
 
 ```RCSZ```
-- [x] __Update:__ 2024.04.20
+- [x] __Update:__ 2024.04.21
 ---
 
 - 标准库: ```string``` ```vector``` ```cstdio```
@@ -49,7 +49,7 @@ void DrawMenuWindow(
 
 ## 动画轴编辑器
 > - 窗口: 函数内会调用 ImGui::Begin - ImGui::End
-> - Update: 2024.04.20 修复了无节点信息时内存溢出
+> - Update: 2024.04.21 修复了许多Bug, 每个按钮引入渐变动画
 __类定义:__
 ```cpp
 class IMFXC_WIN::AnimAxisEditorWindow;
@@ -171,13 +171,16 @@ auto DemoFunc = [&](CoordSystemInfo INFO) {
 
 ---
 
-## 模拟仪表盘
+## 模拟仪表盘 
+### Warning: 已被列入弃用控件
+__可以在引入头时定义"ENABLE_OLD_CONTROL_DASHBOAR"启用__
+
 > - 子窗口: 函数内会调用 ImGui::BeginChild - ImGui::EndChild
-> - Update: 2024.02.18 状态较多, 可能存在潜在bug
+> - Update: 2024.04.21 弃用停止维护控件
 
 __类定义:__
 ```cpp
-class IMFXC_WIN::DashboardChildWindow;
+class IMFXC_CWIN::DashboardChildWindow;
 ```
 
 __调用成员:__
