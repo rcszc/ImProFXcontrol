@@ -150,7 +150,7 @@ namespace IMFXC_WIN {
 					(CoordYLimit.y - CoordYLimit.x) * ConstSCparam.y / coord_winsize.x
 				);
 
-			ImVec2 GridWindowPos = ImVec2(RulerWinWidth + IMGUI_ITEM_SPC * 1.5f, RulerWinWidth + IMGUI_ITEM_SPC * 4.75f);
+			ImVec2 GridWindowPos = ImVec2(RulerWinWidth + IMGUI_ITEM_SPAC * 1.5f, RulerWinWidth + IMGUI_ITEM_SPAC * 4.75f);
 			// grid window scale.
 			if (ImGui::IsMouseHoveringRect(
 				ImVec2(IMVEC2_ADD2(ImGui::GetWindowPos(), GridWindowPos)),
@@ -252,7 +252,7 @@ namespace IMFXC_WIN {
 
 			ImVec2 RulerDrawPos(GridCenterPositionSmooth.x + coord_winsize.x * 0.5f, GridCenterPositionSmooth.y + coord_winsize.y * 0.5f);
 			// x ruler window.
-			ImGui::SetCursorPos(ImVec2(RulerWinWidth + IMGUI_ITEM_SPC * 1.5f, IMGUI_ITEM_SPC * 4.25f));
+			ImGui::SetCursorPos(ImVec2(RulerWinWidth + IMGUI_ITEM_SPAC * 1.5f, IMGUI_ITEM_SPAC * 4.25f));
 			ImGui::BeginChild("@COORDX", ImVec2(coord_winsize.x, RulerWinWidth));
 			{
 				ImControlBase::ExtDrawRectangleFill(
@@ -267,7 +267,7 @@ namespace IMFXC_WIN {
 			ImGui::EndChild();
 
 			// y ruler window.
-			ImGui::SetCursorPos(ImVec2(IMGUI_ITEM_SPC, RulerWinWidth + IMGUI_ITEM_SPC * 4.75f));
+			ImGui::SetCursorPos(ImVec2(IMGUI_ITEM_SPAC, RulerWinWidth + IMGUI_ITEM_SPAC * 4.75f));
 			ImGui::BeginChild("@COORDY", ImVec2(RulerWinWidth, coord_winsize.y));
 			{
 				ImControlBase::ExtDrawRectangleFill(
@@ -281,21 +281,21 @@ namespace IMFXC_WIN {
 			}
 			ImGui::EndChild();
 
-			ImVec2 ToolbarSize(240.0f, coord_winsize.y + RulerWinWidth + IMGUI_ITEM_SPC * 0.5f);
+			ImVec2 ToolbarSize(240.0f, coord_winsize.y + RulerWinWidth + IMGUI_ITEM_SPAC * 0.5f);
 			// editor info panel.
-			ImGui::SetCursorPos(ImVec2(RulerWinWidth + IMGUI_ITEM_SPC * 2.5f + coord_winsize.x, IMGUI_ITEM_SPC * 4.25f));
+			ImGui::SetCursorPos(ImVec2(RulerWinWidth + IMGUI_ITEM_SPAC * 2.5f + coord_winsize.x, IMGUI_ITEM_SPAC * 4.25f));
 			ImGui::BeginChild("@INFOWIN", ToolbarSize);
 			{
 				ImControlBase::ExtDrawRectangleFill(ImVec2(0.0f, 0.0f), ToolbarSize, ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.64f));
 
-				ImGui::SetNextItemWidth(ToolbarSize.x - ImGui::CalcTextSize("Grid").x - IMGUI_ITEM_SPC);
+				ImGui::SetNextItemWidth(ToolbarSize.x - ImGui::CalcTextSize("Grid").x - IMGUI_ITEM_SPAC);
 				ImGui::InputFloat2("GRID", &GridCenterPosition.x, "%.0f");
 
 				ImGui::Spacing();
 				if (ImGui::Button("RE", ImVec2(32.0f, 0.0f)))
 					GridSizeScale.x = 1.0f;
 				ImGui::SameLine();
-				ImGui::SetNextItemWidth(ToolbarSize.x - IMGUI_ITEM_SPC - 32.0f);
+				ImGui::SetNextItemWidth(ToolbarSize.x - IMGUI_ITEM_SPAC - 32.0f);
 				ImGui::SliderFloat("##SCALE", &GridSizeScale.x, GridScaleLimit.x, GridScaleLimit.y, "%.2f");
 
 				ImGui::Spacing();

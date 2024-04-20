@@ -25,12 +25,12 @@ namespace IMFXC_CWIN {
 		// fill item_location_box.
 		ImControlBase::ExtDrawRectangleFill(
 			ImVec2(ImGui::GetWindowSize().x - 12.0f, MenuBufferYposItem.y),
-			ImVec2(IMGUI_ITEM_SPC, rect_height + 2.0f),
+			ImVec2(IMGUI_ITEM_SPAC, rect_height + 2.0f),
 			color
 		);
 		// fill item_location_dir.
 		ImControlBase::ExtDrawTriangleFill(
-			ImVec2(IMGUI_ITEM_SPC * 2.0f, MenuBufferYposItem.y + (rect_height + 2.0f) * 0.5f),
+			ImVec2(IMGUI_ITEM_SPAC * 2.0f, MenuBufferYposItem.y + (rect_height + 2.0f) * 0.5f),
 			ImVec2(-rect_height / 2.0f, -rect_height / 2.0f),
 			ImVec2(-rect_height / 2.0f, rect_height / 2.0f),
 			color
@@ -74,7 +74,7 @@ namespace IMFXC_CWIN {
 
 			if (ImGui::IsItemHovered()) {
 				MenuBufferYposType.x = DrawHeightPosition - ImGui::GetScrollY();
-				MenuBufferWidthType.x = ItemTextSize.x + IMGUI_ITEM_SPC * 2.0f;
+				MenuBufferWidthType.x = ItemTextSize.x + IMGUI_ITEM_SPAC * 2.0f;
 
 				if (ImGui::GetMouseClickedCount(0)) {
 					count = (uint32_t)i;
@@ -83,7 +83,7 @@ namespace IMFXC_CWIN {
 			}
 			if (count == (uint32_t)i) {
 				MenuBufferYposItem.x = DrawHeightPosition - ImGui::GetScrollY();
-				MenuBufferWidthItem.x = ItemTextSize.x + IMGUI_ITEM_SPC * 2.0f;
+				MenuBufferWidthItem.x = ItemTextSize.x + IMGUI_ITEM_SPAC * 2.0f;
 			}
 			TextDrawHeight = ItemTextSize.y;
 		}

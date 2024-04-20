@@ -43,7 +43,7 @@ namespace IMFXC_WIN {
 		ImGui::Spacing();
 		ImControlBase::ExtDrawLine(
 			ImVec2(ImGui::GetCursorPosX(), ImGui::GetCursorPosY() - ImGui::GetScrollY()),
-			ImVec2(ImGui::GetCursorPosX() + space_left - IMGUI_ITEM_SPC * 2.0f, ImGui::GetCursorPosY() - ImGui::GetScrollY()),
+			ImVec2(ImGui::GetCursorPosX() + space_left - IMGUI_ITEM_SPAC * 2.0f, ImGui::GetCursorPosY() - ImGui::GetScrollY()),
 			color, 2.0f
 		);
 		ImGui::Spacing();
@@ -84,29 +84,29 @@ namespace IMFXC_WIN {
 	}
 
 	void AnimAxisEditorWindow::DrawPlayerLine(ImVec2& position, float offset, float max, const ImVec4& color, float xscale) {
-		float PlayerRectWidth = IMGUI_ITEM_SPC * 3.2f;
+		float PlayerRectWidth = IMGUI_ITEM_SPAC * 3.2f;
 		float PlayerLineWidth = 2.2f;
 
 		ImControlBase::ExtDrawLine(
-			ImVec2(position.y * xscale - offset - PlayerLineWidth * 0.5f, IMGUI_ITEM_SPC + PlayerRectWidth * 0.5f),
-			ImVec2(position.y * xscale - offset - PlayerLineWidth * 0.5f, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 4.0f),
+			ImVec2(position.y * xscale - offset - PlayerLineWidth * 0.5f, IMGUI_ITEM_SPAC + PlayerRectWidth * 0.5f),
+			ImVec2(position.y * xscale - offset - PlayerLineWidth * 0.5f, ImGui::GetWindowHeight() - IMGUI_ITEM_SPAC * 4.0f),
 			color,
 			EditorScaleLinesWidth * 2.2f
 		);
 		ImControlBase::ExtDrawLine(
-			ImVec2(position.y * xscale - offset + IMGUI_ITEM_SPC, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 4.0f),
-			ImVec2(position.y * xscale - offset - IMGUI_ITEM_SPC, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 4.0f),
+			ImVec2(position.y * xscale - offset + IMGUI_ITEM_SPAC, ImGui::GetWindowHeight() - IMGUI_ITEM_SPAC * 4.0f),
+			ImVec2(position.y * xscale - offset - IMGUI_ITEM_SPAC, ImGui::GetWindowHeight() - IMGUI_ITEM_SPAC * 4.0f),
 			color,
 			EditorScaleLinesWidth * 2.2f
 		);
 
 		ImControlBase::ExtDrawRectangleFill(
-			ImVec2(position.y * xscale - offset - PlayerRectWidth * 0.5f, IMGUI_ITEM_SPC),
-			ImVec2(PlayerRectWidth, IMGUI_ITEM_SPC * 2.0f),
+			ImVec2(position.y * xscale - offset - PlayerRectWidth * 0.5f, IMGUI_ITEM_SPAC),
+			ImVec2(PlayerRectWidth, IMGUI_ITEM_SPAC * 2.0f),
 			color
 		);
-		ImGui::SetCursorPos(ImVec2(position.y * xscale - offset - PlayerRectWidth * 0.5f, IMGUI_ITEM_SPC));
-		ImGui::InvisibleButton("@SETPLAYER", ImVec2(PlayerRectWidth, IMGUI_ITEM_SPC * 2.0f));
+		ImGui::SetCursorPos(ImVec2(position.y * xscale - offset - PlayerRectWidth * 0.5f, IMGUI_ITEM_SPAC));
+		ImGui::InvisibleButton("@SETPLAYER", ImVec2(PlayerRectWidth, IMGUI_ITEM_SPAC * 2.0f));
 
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDown(0) && !NodeSetValuePointer)
 			PlayerSetYposFlag = true;
@@ -205,29 +205,29 @@ namespace IMFXC_WIN {
 		{
 			ImVec2 ChildWindowSize = ImVec2(ImGui::GetWindowSize().x - EditorSpaceLeft, ImGui::GetWindowSize().y - EditorSpaceBelow);
 
-			ImGui::SetCursorPos(ImVec2(EditorSpaceLeft, ImGui::GetWindowSize().y - EditorSpaceBelow - IMGUI_ITEM_SPC * 0.5f));
-			ImGui::SetNextItemWidth(ChildWindowSize.x - ImGui::CalcTextSize("TRACK").x - IMGUI_ITEM_SPC * 2.0f);
+			ImGui::SetCursorPos(ImVec2(EditorSpaceLeft, ImGui::GetWindowSize().y - EditorSpaceBelow - IMGUI_ITEM_SPAC * 0.5f));
+			ImGui::SetNextItemWidth(ChildWindowSize.x - ImGui::CalcTextSize("TRACK").x - IMGUI_ITEM_SPAC * 2.0f);
 
 			TrackWindowXpos.y = track_length * TrackWidthValueScale - ChildWindowSize.x * 0.85f;
 			TrackWindowXpos.y = TrackWindowXpos.y < 0.0f ? 0.0f : TrackWindowXpos.y;
 
 			ImGui::SliderFloat("TRACK", &TrackWindowXpos.x, 0.0f, TrackWindowXpos.y, "%0.1f");
 
-			ImGui::SetCursorPos(ImVec2(EditorSpaceLeft, IMGUI_ITEM_SPC * 4.32f));
+			ImGui::SetCursorPos(ImVec2(EditorSpaceLeft, IMGUI_ITEM_SPAC * 4.32f));
 			// draw animation_track editor window.
-			ImGui::BeginChild("@ANIMTRACK", ImVec2(ChildWindowSize.x - IMGUI_ITEM_SPC, ChildWindowSize.y - IMGUI_ITEM_SPC * 5.5f), true);
+			ImGui::BeginChild("@ANIMTRACK", ImVec2(ChildWindowSize.x - IMGUI_ITEM_SPAC, ChildWindowSize.y - IMGUI_ITEM_SPAC * 5.5f), true);
 
 			ImVec4 LinesColor = ImControlBase::ExtColorBrightnesScale(EditorColorSystem, 0.42f);
 			// value_zero base_line.
 			float HighCenterPosition = ImGui::GetWindowHeight() * 0.5f;
-			TrackXpos += (TrackWindowXpos.x - IMGUI_ITEM_SPC * 4.0f - TrackXpos) * 0.1f;
+			TrackXpos += (TrackWindowXpos.x - IMGUI_ITEM_SPAC * 4.0f - TrackXpos) * 0.1f;
 
 			for (float i = 0.0f; i <= track_length; i += 50.0f) {
 				float LinesXposTemp = i * TrackWidthValueScale - TrackXpos;
 
 				ImControlBase::ExtDrawLine(
-					ImVec2(LinesXposTemp, IMGUI_ITEM_SPC),
-					ImVec2(LinesXposTemp, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 4.0f),
+					ImVec2(LinesXposTemp, IMGUI_ITEM_SPAC),
+					ImVec2(LinesXposTemp, ImGui::GetWindowHeight() - IMGUI_ITEM_SPAC * 4.0f),
 					LinesColor,
 					EditorScaleLinesWidth
 				);
@@ -240,13 +240,13 @@ namespace IMFXC_WIN {
 				float LinesXposTemp = i * TrackWidthValueScale - TrackXpos;
 				// draw time_tick text.
 				ImControlBase::ExtDrawText(
-					ImVec2(LinesXposTemp - ImGui::CalcTextSize(TimeTickText).x * 0.5f, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 3.5f),
+					ImVec2(LinesXposTemp - ImGui::CalcTextSize(TimeTickText).x * 0.5f, ImGui::GetWindowHeight() - IMGUI_ITEM_SPAC * 3.5f),
 					LinesColor, "%.0f", i
 				);
 
 				ImControlBase::ExtDrawLine(
-					ImVec2(LinesXposTemp, IMGUI_ITEM_SPC),
-					ImVec2(LinesXposTemp, ImGui::GetWindowHeight() - IMGUI_ITEM_SPC * 4.0f),
+					ImVec2(LinesXposTemp, IMGUI_ITEM_SPAC),
+					ImVec2(LinesXposTemp, ImGui::GetWindowHeight() - IMGUI_ITEM_SPAC * 4.0f),
 					LinesColor,
 					EditorScaleLinesWidth * 2.0f
 				);
@@ -272,50 +272,52 @@ namespace IMFXC_WIN {
 				std::copy(std::begin(XYZTEXT), std::end(XYZTEXT), std::begin(AsixTexts));
 			}
 
-			for (size_t i = 0; i < sample.size() - 1; ++i) {
-				float SampleCoordIndex[ANE_COORD_PARAMS] = {};
-				size_t AnimCount = size_t(sample.size() >= 2);
+			if (!sample.empty()) {
+				for (size_t i = 0; i < sample.size() - 1; ++i) {
+					float SampleCoordIndex[ANE_COORD_PARAMS] = {};
+					size_t AnimCount = size_t(sample.size() >= 2);
 
+					for (size_t j = 0; j < 3; ++j) {
+						size_t ParamCount = j + (size_t)EditorModeType * 3;
+
+						DrawCubicBezierCurve(
+							ImVec2(sample[i].TimePosition, sample[i].AnimSamplePoints[ParamCount]),
+							ImVec2(sample[i + AnimCount].TimePosition, sample[i + AnimCount].AnimSamplePoints[ParamCount]),
+							AsixColors[j],
+							ImVec2(TrackWidthValueScale, TrackHeightValueScale),
+							TrackXpos,
+							sample[i].PlayerSamplingRate,
+							HighCenterPosition
+						);
+						DrawAnimationPoints(
+							ImVec2(sample[i].TimePosition * TrackWidthValueScale - TrackXpos, HighCenterPosition - sample[i].AnimSamplePoints[ParamCount] * TrackHeightValueScale),
+							4.2f,
+							AsixColors[j],
+							sample[i].AnimSamplePoints[ParamCount]
+						);
+					}
+					for (size_t j = 0; j < 6; ++j) {
+						if (RunGetCubicBezierCurve(
+							ImVec2(sample[i].TimePosition, sample[i].AnimSamplePoints[j]),
+							ImVec2(sample[i + AnimCount].TimePosition, sample[i + AnimCount].AnimSamplePoints[j]),
+							SampleCoordIndex[j],
+							PlayerLineXpos.y,
+							HighCenterPosition
+						))
+							PlayerRunCoord.AnimGenVector[j] = HighCenterPosition - SampleCoordIndex[j];
+					}
+				}
+				size_t LAST = sample.size() - 1;
 				for (size_t j = 0; j < 3; ++j) {
 					size_t ParamCount = j + (size_t)EditorModeType * 3;
 
-					DrawCubicBezierCurve(
-						ImVec2(sample[i].TimePosition, sample[i].AnimSamplePoints[ParamCount]),
-						ImVec2(sample[i + AnimCount].TimePosition, sample[i + AnimCount].AnimSamplePoints[ParamCount]),
-						AsixColors[j],
-						ImVec2(TrackWidthValueScale, TrackHeightValueScale),
-						TrackXpos,
-						sample[i].PlayerSamplingRate,
-						HighCenterPosition
-					);
 					DrawAnimationPoints(
-						ImVec2(sample[i].TimePosition * TrackWidthValueScale - TrackXpos, HighCenterPosition - sample[i].AnimSamplePoints[ParamCount] * TrackHeightValueScale),
+						ImVec2(sample[LAST].TimePosition * TrackWidthValueScale - TrackXpos, HighCenterPosition - sample[LAST].AnimSamplePoints[ParamCount] * TrackHeightValueScale),
 						4.2f,
 						AsixColors[j],
-						sample[i].AnimSamplePoints[ParamCount]
+						sample[LAST].AnimSamplePoints[ParamCount]
 					);
 				}
-				for (size_t j = 0; j < 6; ++j) {
-					if (RunGetCubicBezierCurve(
-						ImVec2(sample[i].TimePosition, sample[i].AnimSamplePoints[j]),
-						ImVec2(sample[i + AnimCount].TimePosition, sample[i + AnimCount].AnimSamplePoints[j]),
-						SampleCoordIndex[j],
-						PlayerLineXpos.y,
-						HighCenterPosition
-					))
-						PlayerRunCoord.AnimGenVector[j] = HighCenterPosition - SampleCoordIndex[j];
-				}
-			}
-			size_t LAST = sample.size() - 1;
-			for (size_t j = 0; j < 3; ++j) {
-				size_t ParamCount = j + (size_t)EditorModeType * 3;
-
-				DrawAnimationPoints(
-					ImVec2(sample[LAST].TimePosition * TrackWidthValueScale - TrackXpos, HighCenterPosition - sample[LAST].AnimSamplePoints[ParamCount] * TrackHeightValueScale),
-					4.2f,
-					AsixColors[j],
-					sample[LAST].AnimSamplePoints[ParamCount]
-				);
 			}
 
 			MouseSetPointValue();
@@ -326,11 +328,11 @@ namespace IMFXC_WIN {
 			PlayerLineXpos.y += (PlayerLineXpos.x - PlayerLineXpos.y) * 0.12f;
 			PlayerLineXpos.y = abs(PlayerLineXpos.x - PlayerLineXpos.y) < 0.01f ? PlayerLineXpos.x : PlayerLineXpos.y;
 
-			ImGui::SetCursorPos(ImVec2(IMGUI_ITEM_SPC, IMGUI_ITEM_SPC * 4.32f));
+			ImGui::SetCursorPos(ImVec2(IMGUI_ITEM_SPAC, IMGUI_ITEM_SPAC * 4.32f));
 			ImGui::Text("TICK: %.1f", PlayerLineXpos.y);
 			ImGui::Spacing();
 
-			float ButtonWidth = (EditorSpaceLeft - IMGUI_ITEM_SPC * 3.0f) * 0.5f;
+			float ButtonWidth = (EditorSpaceLeft - IMGUI_ITEM_SPAC * 3.0f) * 0.5f;
 			if (ImGui::Button("Begin", ImVec2(ButtonWidth, 0.0f))) {
 				PlayerLineXpos.x = 0.0f;
 				PlayerLineXpos.y = 0.0f;
@@ -342,7 +344,7 @@ namespace IMFXC_WIN {
 			}
 			ImGui::Spacing();
 
-			float SpaceLeftItem = EditorSpaceLeft - IMGUI_ITEM_SPC * 2.0f;
+			float SpaceLeftItem = EditorSpaceLeft - IMGUI_ITEM_SPAC * 2.0f;
 			ButtonModeType(PlayerFlag, "STOP", "PLAY", ImVec2(SpaceLeftItem, 0.0f));
 			if (PlayerFlag)
 				PlayerLineXpos.x += player_step * TrackWidthValueScale;
@@ -354,14 +356,14 @@ namespace IMFXC_WIN {
 			if (ImGui::Button("RH", ImVec2(32.0f, 0.0f)))
 				TrackHeightValueScale = 1.0f;
 			ImGui::SameLine();
-			ImGui::SetNextItemWidth(SpaceLeftItem - 32.0f - IMGUI_ITEM_SPC);
+			ImGui::SetNextItemWidth(SpaceLeftItem - 32.0f - IMGUI_ITEM_SPAC);
 			ImGui::SliderFloat("##HIGHSCALE", &TrackHeightValueScale, 0.02f, 2.0f, "%.2f");
 
 			ImGui::Spacing();
 			if (ImGui::Button("RW", ImVec2(32.0f, 0.0f)))
 				TrackWidthValueScale = 1.0f;
 			ImGui::SameLine();
-			ImGui::SetNextItemWidth(SpaceLeftItem - 32.0f - IMGUI_ITEM_SPC);
+			ImGui::SetNextItemWidth(SpaceLeftItem - 32.0f - IMGUI_ITEM_SPAC);
 			ImGui::SliderFloat("##WIDTHSCALE", &TrackWidthValueScale, 0.5f, 2.0f, "%.2f");
 
 			ImGui::Spacing();

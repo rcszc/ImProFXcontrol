@@ -1,17 +1,22 @@
 // improfx_control_base. RCSZ.
-
 #include "improfx_control_base.h"
 
-// control_base: imgui window_draw_list.
+// function: imgui window_draw_list.
 namespace ImControlBase {
 
 #define ICB_ZEROLIMIT(high, value) high - value < 0.0f ? 0.0f : high - value && high - value > 1.0f ? 1.0f : high - value
 	ImVec4 ExtColorBrightnesScale(const ImVec4& color, float value) {
-		return ImVec4(ICB_ZEROLIMIT(color.x, value), ICB_ZEROLIMIT(color.y, value), ICB_ZEROLIMIT(color.z, value), ICB_ZEROLIMIT(color.w, value));
+		return ImVec4(
+			ICB_ZEROLIMIT(color.x, value), 
+			ICB_ZEROLIMIT(color.y, value), 
+			ICB_ZEROLIMIT(color.z, value), 
+			ICB_ZEROLIMIT(color.w, value)
+		);
 	}
 
-	float ExtItemCenteredCalc(const float& width) {
-		return ImGui::GetWindowSize().x / 2.0f - width / 2.0f;
+	float ExtItemCenteredCalc(const float& width) { 
+		// window,child_window item centered.
+		return ImGui::GetWindowSize().x / 2.0f - width / 2.0f; 
 	}
 
 	void ExtDrawLine(const ImVec2& point0, const ImVec2& point1, const ImVec4& color, float linewidth) {
@@ -24,13 +29,13 @@ namespace ImControlBase {
 		);
 	}
 
-#define ICB_FMTLEN_CHARARRY 1024
+#define ICB_CHARARRY_FMTLEN 1024
 	void ExtDrawText(const ImVec2& position, const ImVec4& color, const char* text, ...) {
-		char LoggerStrTemp[ICB_FMTLEN_CHARARRY] = {};
+		char LoggerStrTemp[ICB_CHARARRY_FMTLEN] = {};
 
 		va_list ParamArgs;
 		va_start(ParamArgs, text);
-		vsnprintf(LoggerStrTemp, ICB_FMTLEN_CHARARRY, text, ParamArgs);
+		vsnprintf(LoggerStrTemp, ICB_CHARARRY_FMTLEN, text, ParamArgs);
 		va_end(ParamArgs);
 
 		ImGui::GetWindowDrawList()->AddText(

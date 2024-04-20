@@ -11,7 +11,6 @@
 
 #include "improfx_control_base.h"
 
-// ImProFX 子窗口包装控件.
 namespace IMFXC_CWIN {
 
 	// ######################################## SmoothMenuChildWindow ########################################
@@ -80,11 +79,10 @@ namespace IMFXC_CWIN {
 	};
 }
 
-// ImProFX (父级)窗口包装控件.
 namespace IMFXC_WIN {
 
 	// ######################################## AnimAxisEditorWindow ########################################
-	// Update: 2024_02_16 RCSZ.
+	// Update: 2024_04_20 RCSZ.
 
 #define ANE_COORD_PARAMS 6 
 	// animation points coordinates.
@@ -138,7 +136,6 @@ namespace IMFXC_WIN {
 		bool RunGetCubicBezierCurve(const ImVec2& point0, const ImVec2& point1, float& value, float playerpos, float centerh);
 
 	public:
-		AnimAxisEditorWindow(int a) {};
 		bool PlayerRunSample(AnimGenCoord& CoordParam);
 		std::vector<AnimGenCoord> GenerateBakedBezierCurve();
 
