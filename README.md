@@ -9,8 +9,8 @@
 __文档:__ [里边请~](https://github.com/rcszc/ImProFXcontrol/blob/main/im_docs/IMPROFX_DOC.md)
 
 <p align="center">
-  <img src="im_docs/IMPROFX_IPFC1.png" style="width:20%;"/>
-  <img src="im_docs/IMPROFX_IPFC2.png" style="width:78%;"/>
+  <img src="im_docs/IMPROFX_IPFC1.png" style="width:21%;"/>
+  <img src="im_docs/IMPROFX_IPFC2.png" style="width:77%;"/>
 </p>
 <p align="center">
   <img src="im_docs/IMPROFX_IPFC3.png" style="width:40%;"/>
