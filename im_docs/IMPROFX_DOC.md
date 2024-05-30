@@ -3,22 +3,23 @@
 > improfx_control_src/improfx_control.h
 
 ```RCSZ```
-- [x] __Update:__ 2024.04.21
+- [x] __Update:__ 2024.05.30
 ---
 
-- 标准库: ```string``` ```vector``` ```cstdio```
+- 标准库: ```string``` ```vector``` ```cstdio``` ```chrono``` ```functional```
 - ImGui: ```imgui_glfw/imgui.h``` ```imgui_glfw/imgui_internal.h```
   
 > 使用时记得前往 improfx_control_base.h 把imgui替换为自己的路径, 然后引入 improfx_control.h 即可 ~
 
 __说明:__ ImProFXcontrol 是独立于ImProFX框架的ImGui自制控件, 只依赖于ImGui核心和标准库, 可以容易的集成到自己的C++ImGui项目中.
 
-| Control | Time | Developers | 
-| :---: | :---: | :---:
-| SmoothMenuChildWindow | 2023.12.21 | RCSZ |
-| AnimAxisEditorWindow | 2023.12.21 | RCSZ |
-| FlatEditorWindow | 2023.12.25 | RCSZ |
-| DashboardChildWindow | 2024.02.18 | RCSZ |
+| Control | Time | Developers | Status |
+| :---: | :---: | :---: | :---: | 
+| SmoothMenuChildWindow | 2023.12.21 | RCSZ | √
+| AnimAxisEditorWindow | 2023.12.21 | RCSZ | √
+| FlatEditorWindow | 2023.12.25 | RCSZ | √
+| DashboardChildWindow | 2024.02.18 | RCSZ | x
+| ShortcutKeyEditorWindow | 2024.05.30 | RCSZ | √
 
 ---
 
@@ -172,7 +173,7 @@ auto DemoFunc = [&](CoordSystemInfo INFO) {
 ---
 
 ## 模拟仪表盘 
-### Warning: 已被列入弃用控件
+### [warning]: 已被列入弃用控件
 __可以在引入头时定义"ENABLE_OLD_CONTROL_DASHBOAR"启用__
 
 > - 子窗口: 函数内会调用 ImGui::BeginChild - ImGui::EndChild
@@ -201,6 +202,57 @@ ImVec2 SetDashboardValueLimit(const ImVec2& limit);
 // 仪表启动标志(启动动画)
 bool DashboardStart = false;
 ```
+
+---
+
+## 组合快捷键编辑器
+> - 窗口: 函数内会调用 ImGui::Begin - ImGui::End
+> - Update: 2024.05.30
+
+__类定义:__
+```cpp
+class IMFXC_WIN::ShortcutKeyEditorWindow;
+```
+
+__数据结构:__
+```cpp
+// 快捷键的所有主键, 也是头键:
+// 0: ImGuiKey_LeftCtrl, 1: ImGuiKey_LeftShift, 2: ImGuiKey_LeftAlt,
+// 3: ImGuiKey_RightCtrl, 4: ImGuiKey_RightShift, 5: ImGuiKey_RightAlt
+struct ShortcutKeyInfo {
+	int MainKeyIndex; // 快捷键主键索引
+	std::string           KeyShortcutName; // 快捷键名称
+	std::vector<ImGuiKey> KeyCombination;  // 快捷键组合
+};
+```
+
+__调用成员:__
+```cpp
+// 获取快捷键源数据指针
+std::vector<ShortcutKeyInfo>* GetSourceData();
+
+// 上一次命中索引(ID).
+int32_t LAST_HIT = -1;
+// 更新快捷键(运行判断系统), 快捷键判定可以在不绘制窗口情况下运行
+int32_t UpdateShortcutKey();
+
+void DrawEditorWindow(
+	uint32_t         unqiue_id,               // ImGui帧内唯一ID
+	const char*      name,                    // 窗口名称
+	float            interval,                // 快捷键组合按键时间间隔, 单位:秒(s), 精度:毫秒(ms)
+	bool             fixed_window = false,    // 固定窗口(大小&位置)
+	bool*            p_open       = (bool*)0, // 与ImGui::Begin的"p_open"参数相同
+	ImGuiWindowFlags flags        = NULL      // 与ImGui::Begin的"flags"参数相同
+);
+
+// 组合键命名最大字符串长度
+size_t KeyNameLength = 256;
+
+// 编辑器色系, 所有控件的颜色会围绕这个颜色进行变换
+ImVec4 EditorColorSystem = ImVec4(0.85f, 0.85f, 0.85f, 1.0f);
+```
+
+__界面操作:__ "+"添加键, "-"删除键, 使用鼠标左键长按"SET"按钮同时按下键盘想设置的键.
 
 ---
 
