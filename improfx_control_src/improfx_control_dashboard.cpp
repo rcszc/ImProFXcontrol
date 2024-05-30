@@ -1,7 +1,5 @@
 // improfx_control_dashboard. RCSZ. [20240216]
 // ImGui: [ChildWindow(BeginChild_EndChild)], Aashboard View, Update: 20240216.
-
-#include "improfx_control_base_ms.h"
 #include "improfx_control.h"
 
 constexpr ImVec2 SemicircleDeg = ImVec2(45.0f, 315.0f);
@@ -15,7 +13,6 @@ inline void LEDSTATE(bool STAT, const ImVec2& POS, const ImVec4& HCOLOR, const I
 
 namespace IMFXC_CWIN {
 #ifdef OLD_CONTROL_DASHBOAR
-
 	void DashboardChildWindow::DrawSemicircleBox(float window_width, float y_offset, uint32_t ruler, const ImVec4& color) {
 		float DrawOffsetHigh = window_width * 0.5f;
 		ImVec2 CircleRadius = ImVec2(DrawOffsetHigh - IMGUI_ITEM_SPAC, window_width * 0.32f);

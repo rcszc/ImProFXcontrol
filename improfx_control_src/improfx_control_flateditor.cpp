@@ -1,8 +1,5 @@
 // improfx_control_flateditor. RCSZ. [20231224]
 // ImGui: [Window(Begin_End)], Flat Coordinate Editor, Update: 20240216.
-
-#define IMPROFX_CONTROL_BASE_MATHS
-#include "improfx_control_base_ms.h"
 #include "improfx_control.h"
 
 #define LIMIT_CLAMP(value, min, max) ((value) < (min) ? (min) : ((value) > (max) ? (max) : (value)))
@@ -23,9 +20,13 @@ namespace IMFXC_WIN {
 		for (float i = limit.x * scale + center; i < limit.y * scale + center + 0.1f; i += ruler * scale) {
 			// ruler main scale.
 			IM_CONTROL_BASE::ListDrawLine(ImVec2(i, 0.0f), ImVec2(i, length), color, 1.8f);
-			if (scale > 0.72f)
+			if (scale > 0.72f) {
 				for (float j = 0.0f; j < ruler / RulerScaleValue; j += 1.0f)
-					IM_CONTROL_BASE::ListDrawLine(ImVec2(i + RulerScaleValue * scale * j, 0.0f), ImVec2(i + RulerScaleValue * scale * j, length * 0.58f), color, 1.2f);
+					IM_CONTROL_BASE::ListDrawLine(
+						ImVec2(i + RulerScaleValue * scale * j, 0.0f),
+						ImVec2(i + RulerScaleValue * scale * j, length * 0.58f), color, 1.2f
+					);
+			}
 		}
 	}
 
@@ -33,9 +34,13 @@ namespace IMFXC_WIN {
 		for (float i = limit.x * scale + center; i < limit.y * scale + center + 0.1f; i += ruler * scale) {
 			// ruler main scale.
 			IM_CONTROL_BASE::ListDrawLine(ImVec2(0.0f, i), ImVec2(length, i), color, 1.8f);
-			if (scale > 0.72f)
+			if (scale > 0.72f) {
 				for (float j = 0.0f; j < ruler / RulerScaleValue; j += 1.0f)
-					IM_CONTROL_BASE::ListDrawLine(ImVec2(0.0f, i + RulerScaleValue * scale * j), ImVec2(length * 0.58f, i + RulerScaleValue * scale * j), color, 1.2f);
+					IM_CONTROL_BASE::ListDrawLine(
+						ImVec2(0.0f, i + RulerScaleValue * scale * j),
+						ImVec2(length * 0.58f, i + RulerScaleValue * scale * j), color, 1.2f
+					);
+			}
 		}
 	}
 
@@ -118,16 +123,16 @@ namespace IMFXC_WIN {
 		ImGui::PushID(unqiue_id);
 
 		// frame_background color.
-		ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBg,        IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
 		ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
-		ImGui::PushStyleColor(ImGuiCol_FrameBgActive, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
-		// slider_block color.
-		ImGui::PushStyleColor(ImGuiCol_SliderGrab, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.16f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBgActive,  IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
+		// slider_block color. 
+		ImGui::PushStyleColor(ImGuiCol_SliderGrab,       IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.16f));
 		ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.16f));
 		// button color.
-		ImGui::PushStyleColor(ImGuiCol_Button, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
+		ImGui::PushStyleColor(ImGuiCol_Button,        IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.58f));
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, IM_CONTROL_BASE::ColorBrightnesScale(EditorColorSystem, 0.2f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, EditorColorSystem);
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive,  EditorColorSystem);
 
 		ImGui::Begin(name, p_open, WindowFlags | flags);
 		{
@@ -239,11 +244,10 @@ namespace IMFXC_WIN {
 					ImGui::GetWindowDrawList()->AddRectFilled(
 						ImGui::GetWindowPos() + DrawBoxMin,
 						ImGui::GetWindowPos() + DrawBoxMax,
-						IMVEC4_CVT_COLU32(BoxColor),
+						IMVEC4_TO_COLU32(BoxColor),
 						ImGui::GetStyle().FrameRounding,
 						NULL
 					);
-
 				}
 				else {
 					EditorSeleBoxVirPoints[0] = ImVec2(0.0f, 0.0f);
@@ -303,9 +307,9 @@ namespace IMFXC_WIN {
 				ImGui::Spacing();
 				PositioningWindow(GridCenterPosition, CoordXLimit, CoordYLimit, EditorColorSystem, poswin_image, ToolbarSize.x, GridSizeScale.y);
 
-				//ImGui::Spacing();
-				//ImGui::SetNextItemWidth(ToolbarSize.x);
-				//ImGui::ColorEdit4("##EDITCOL", &EditorColorSystem.x);
+				ImGui::Spacing();
+				ImGui::SetNextItemWidth(ToolbarSize.x);
+				ImGui::ColorEdit4("##EDITCOL", &EditorColorSystem.x);
 
 				ImGui::Spacing();
 				ImGui::Indent(4.0f);

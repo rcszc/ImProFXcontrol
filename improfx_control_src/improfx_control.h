@@ -6,8 +6,8 @@
 #include <functional>
 #include <string>
 #include <vector>
-#include <deque>
 #include <cstdio>
+#include <chrono>
 
 #include "improfx_control_base.h"
 
@@ -31,7 +31,6 @@ namespace IMFXC_CWIN {
 		void DrawMenuItemRect(float rect_height, const ImVec4& color);
 
 		void MenuInterCalc(ImVec2& posy_calc, ImVec2& width_calc, float speed);
-
 	public:
 		bool DrawMenuWindow(
 			const char*                     name,
@@ -61,7 +60,6 @@ namespace IMFXC_CWIN {
 		void DrawSemicircleBox(float window_width, float y_offset, uint32_t ruler, const ImVec4& color);
 		void DrawRulerscaleValue(float window_width, float y_offset, uint32_t ruler, const ImVec2& limit, const ImVec4& color);
 		void DrawIndicator(float window_width, float y_offset, float value, const ImVec2& limit, const ImVec4& color);
-
 	public:
 		bool DrawDashboardWindow(
 			const char*   name,
@@ -85,7 +83,7 @@ namespace IMFXC_CWIN {
 namespace IMFXC_WIN {
 
 	// ######################################## AnimAxisEditorWindow ########################################
-	// PROJ: 2023_12_19 RCSZ. Update: 2024_04_20 RCSZ.
+	// PROJ: 2023_12_19 RCSZ. Update: 2024_05_30 RCSZ.
 
 #define ANE_COORD_PARAMS 6 
 	// animation points coordinates.
@@ -118,12 +116,12 @@ namespace IMFXC_WIN {
 		// false:[x.y.z], true:[pitch.yaw.roll]
 		bool EditorModeType = false;
 
-		ImVec2 TrackWindowScrollx = {};   // x:pos, y:max.
-		float  TrackScrollx       = 0.0f; // tick inter_smooth.
-
 		ImVec2 PlayerLineScrollx    = {}; // x:pos, y:smooth
 		bool   PlayerSetScrollyFlag = false;
 		bool   PlayerFlag           = false;
+
+		ImVec2 TrackWindowScrollx = {};   // x:pos, y:max.
+		float  TrackScrollx       = 0.0f; // tick inter_smooth.
 
 		float* NodeSetValuePointer = nullptr;
 
@@ -161,19 +159,20 @@ namespace IMFXC_WIN {
 			std::vector<AnimCoordSample>& sample,
 			bool                          fixed_window = false,
 			bool*                         p_open       = (bool*)0,
-			ImGuiWindowFlags              flags        = 0
+			ImGuiWindowFlags              flags        = NULL
 		);
 
 		float TrackWidthValueScale  = 1.0f;
 		float TrackHeightValueScale = 1.0f;
 
+		// window global colorsystem.
 		ImVec4 EditorColorSystem = ImVec4(0.86f, 0.86f, 0.86f, 0.94f);
 	};
 
 	// ######################################## FlatEditorWindow ########################################
 	// PROJ: 2023_12_25 RCSZ. Update: 2024_02_16 RCSZ.
 
-	// editor coordinate information.
+	// editor coordinate_system information.
 	struct CoordSystemInfo {
 		ImVec2 CenterPosition;
 		ImVec2 MouseCoordPos;
@@ -221,7 +220,6 @@ namespace IMFXC_WIN {
 			ImVec2& index, const ImVec2& limitx, const ImVec2& limity, const ImVec4& color, ImTextureID texture,
 			float size, float scale
 		);
-
 	public:
 		void DrawEditorWindow(
 			uint32_t							 unqiue_id,
@@ -233,11 +231,60 @@ namespace IMFXC_WIN {
 			const ImVec2&                        coord_size    = ImVec2(1200.0f, 1200.0f),
 			const ImVec2&                        coord_winsize = ImVec2(640.0f, 640.0f),
 			bool*                                p_open        = (bool*)0,
-			ImGuiWindowFlags                     flags         = 0
+			ImGuiWindowFlags                     flags         = NULL
 		);
 
+		// toolbar custom control func. 
 		std::function<void()> EditorToolbar = []() {};
 
+		// window global colorsystem.
+		ImVec4 EditorColorSystem = ImVec4(0.85f, 0.85f, 0.85f, 1.0f);
+	};
+
+	// ######################################## FlatEditorWindow ########################################
+	// PROJ: 2024_05_30 RCSZ. Update: 2024_05_30 RCSZ.
+
+	struct ShortcutKeyInfo {
+		int MainKeyIndex;
+		std::string           KeyShortcutName;
+		std::vector<ImGuiKey> KeyCombination;
+
+		ShortcutKeyInfo() : MainKeyIndex(NULL), KeyShortcutName(""), KeyCombination({}) {}
+	};
+
+	// [ImGui窗口]: 组合快捷键编辑器.
+	class ShortcutKeyEditorWindow {
+	protected:
+		std::vector<ShortcutKeyInfo> ShortcutKeys = {};
+		std::chrono::steady_clock::time_point CombinationKeyTimer = {};
+		std::vector<ImGuiKey> CombinationKey = {};
+
+		int64_t CombinationKeyDuration = NULL;
+		bool    CombinationKeyFlag     = {};
+
+		ImGuiKey PressWhichKey(bool repeat = true);
+		// keys == CombinationKey ?
+		bool IfCombinationKey(const std::vector<ImGuiKey>& keys);
+	public:
+		std::vector<ShortcutKeyInfo>* GetSourceData() {
+			return &ShortcutKeys;
+		}
+		int32_t LAST_HIT = -1;
+		int32_t UpdateShortcutKey();
+
+		void DrawEditorWindow(
+			uint32_t         unqiue_id,
+			const char*      name,
+			float            interval,
+			bool             fixed_window = false,
+			bool*            p_open       = (bool*)0,
+			ImGuiWindowFlags flags        = NULL
+		);
+
+		// shortcut_key name text(char) length.
+		size_t KeyNameLength = 256;
+
+		// window global colorsystem.
 		ImVec4 EditorColorSystem = ImVec4(0.85f, 0.85f, 0.85f, 1.0f);
 	};
 }

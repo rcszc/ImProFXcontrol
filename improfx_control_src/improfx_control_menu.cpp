@@ -1,6 +1,5 @@
 ﻿// improfx_control_menu. RCSZ. [20231220]
 // ImGui: [ChildWindow(BeginChild_EndChild)], Animation Menu, Update: 20240216.
-
 #include "improfx_control.h"
 
 namespace IMFXC_CWIN {
@@ -34,7 +33,7 @@ namespace IMFXC_CWIN {
 		IM_CONTROL_BASE::ListDrawTriangleFill(
 			ImVec2(IMGUI_ITEM_SPAC * 2.0f, MenuBufferItemScroll.y + (rect_height + 2.0f) * 0.5f),
 			ImVec2(-rect_height / 2.0f, -rect_height / 2.0f),
-			ImVec2(-rect_height / 2.0f, rect_height / 2.0f),
+			ImVec2(-rect_height / 2.0f,  rect_height / 2.0f),
 			color
 		);
 		ImGui::PopStyleVar();
@@ -43,7 +42,7 @@ namespace IMFXC_CWIN {
 
 	void SmoothMenuChildWindow::MenuInterCalc(ImVec2& posy_calc, ImVec2& width_calc, float speed) {
 		// inter: result = y + (x − y) * t.
-		posy_calc.y += (posy_calc.x - posy_calc.y) * 0.072f * speed;
+		posy_calc.y  += (posy_calc.x - posy_calc.y)   * 0.072f * speed;
 		width_calc.y += (width_calc.x - width_calc.y) * 0.072f * speed;
 	}
 

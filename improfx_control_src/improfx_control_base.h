@@ -3,11 +3,9 @@
 #ifndef _IMPROFX_CONTROL_BASE_HPP
 #define _IMPROFX_CONTROL_BASE_HPP
 
-#include "imgui_glfw/imgui.h"
-#include "imgui_glfw/imgui_internal.h"
-
-#define IMGUI_ITEM_SPAC ImGui::GetStyle().ItemSpacing.x
 #define IMPROFX_CONTROL_BASE_MATHS
+#include "improfx_control_base_ms.h"
+
 namespace IM_CONTROL_BASE {
 
 	ImVec4 ColorBrightnesScale(const ImVec4& color, float value);

@@ -32,7 +32,7 @@ namespace IM_CONTROL_BASE {
 		ImGui::GetWindowDrawList()->AddLine(
 			ImGui::GetWindowPos() + point0,
 			ImGui::GetWindowPos() + point1,
-			IMVEC4_CVT_COLU32(FLOAT_COLOR_CLAMP(color)),
+			IMVEC4_TO_COLU32(FLOAT_COLOR_CLAMP(color)),
 			width
 		);
 	}
@@ -48,7 +48,7 @@ namespace IM_CONTROL_BASE {
 
 		ImGui::GetWindowDrawList()->AddText(
 			ImGui::GetWindowPos() + position,
-			IMVEC4_CVT_COLU32(FLOAT_COLOR_CLAMP(color)),
+			IMVEC4_TO_COLU32(FLOAT_COLOR_CLAMP(color)),
 			LoggerStrTemp
 		);
 	}
@@ -58,7 +58,7 @@ namespace IM_CONTROL_BASE {
 		ImGui::GetWindowDrawList()->AddRect(
 			ImGui::GetWindowPos() + position,
 			ImGui::GetWindowPos() + position + size,
-			IMVEC4_CVT_COLU32(FLOAT_COLOR_CLAMP(color)),
+			IMVEC4_TO_COLU32(FLOAT_COLOR_CLAMP(color)),
 			ImGui::GetStyle().FrameRounding,
 			NULL, width
 		);
@@ -69,7 +69,7 @@ namespace IM_CONTROL_BASE {
 		ImGui::GetWindowDrawList()->AddRectFilled(
 			ImGui::GetWindowPos() + position,
 			ImGui::GetWindowPos() + position + size,
-			IMVEC4_CVT_COLU32(FLOAT_COLOR_CLAMP(color)),
+			IMVEC4_TO_COLU32(FLOAT_COLOR_CLAMP(color)),
 			ImGui::GetStyle().FrameRounding,
 			NULL
 		);
@@ -80,7 +80,7 @@ namespace IM_CONTROL_BASE {
 		ImGui::GetWindowDrawList()->AddCircleFilled(
 			ImGui::GetWindowPos() + position,
 			size,
-			IMVEC4_CVT_COLU32(FLOAT_COLOR_CLAMP(color))
+			IMVEC4_TO_COLU32(FLOAT_COLOR_CLAMP(color))
 		);
 	}
 
@@ -90,7 +90,7 @@ namespace IM_CONTROL_BASE {
 			ImGui::GetWindowPos() + position,
 			ImGui::GetWindowPos() + position + offset1,
 			ImGui::GetWindowPos() + position + offset2,
-			IMVEC4_CVT_COLU32(FLOAT_COLOR_CLAMP(color))
+			IMVEC4_TO_COLU32(FLOAT_COLOR_CLAMP(color))
 		);
 	}
 

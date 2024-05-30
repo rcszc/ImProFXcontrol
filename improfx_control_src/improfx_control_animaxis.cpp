@@ -1,8 +1,5 @@
 // improfx_control_animaxis. RCSZ. [20231220]
 // ImGui: [Window(Begin_End)], Animation Axis Editor, Update: 20240216.
-
-#define IMPROFX_CONTROL_BASE_MATHS
-#include "improfx_control_base_ms.h"
 #include "improfx_control.h"
 
 #include <iostream>
@@ -132,7 +129,7 @@ namespace IMFXC_WIN {
 			position.x += ImGui::GetIO().MouseDelta.x / xscale;
 
 		position.x = position.x < 0.0f ? 0.0f : position.x;
-		position.x = position.x > max ? max : position.x;
+		position.x = position.x > max ? max   : position.x;
 	}
 
 	bool AnimAxisEditorWindow::RunGetCubicBezierCurve(
@@ -345,7 +342,6 @@ namespace IMFXC_WIN {
 					);
 				}
 			}
-
 			MouseSetPointValue();
 			DrawPlayerLine(PlayerLineScrollx, TrackScrollx, track_length, EditorColorPlayer, TrackWidthValueScale);
 
@@ -414,7 +410,6 @@ namespace IMFXC_WIN {
 					ImGui::TextColored(SystemAsixColors[i], SystemAsixTexts[i], PlayerRunCoord.AnimGenVector[i + (size_t)EditorModeType * 3]);
 			}
 			SpacingLine(EditorSpaceLeft, LinesColor);
-
 			ImGui::Text("Animations:%u", sample.size());
 		}
 		ImGui::End();
