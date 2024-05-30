@@ -51,6 +51,7 @@ void DrawMenuWindow(
 ## 动画轴编辑器
 > - 窗口: 函数内会调用 ImGui::Begin - ImGui::End
 > - Update: 2024.04.21 修复了许多Bug, 每个按钮引入渐变动画
+
 __类定义:__
 ```cpp
 class IMFXC_WIN::AnimAxisEditorWindow;
@@ -106,6 +107,8 @@ float TrackHeightValueScale = 1.0f; // 动画轨道高度缩放
 // 编辑器色系, 所有控件的颜色会围绕这个颜色进行变换
 ImVec4 EditorColorSystem = ImVec4(0.85f, 0.85f, 0.85f, 1.0f);
 ```
+
+__PS:__ 这个更像是一个节点展示器, 每个时间点必须具备6个坐标向量, 如果需要更加强大的动画编辑器请前往: [动画编辑器ultra版本](https://github.com/rcszc/AnimCurvesEditor)
 
 ---
 
